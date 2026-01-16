@@ -1,0 +1,2026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompTIA Project+ PK0-005 - Complete Study Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --bg-card-back: #334155;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-yellow: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-pink: #ec4899;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: rgba(148, 163, 184, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .app-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-card.d1 .stat-value { color: var(--accent-purple); }
+        .stat-card.d2 .stat-value { color: var(--accent-cyan); }
+        .stat-card.d3 .stat-value { color: var(--accent-yellow); }
+        .stat-card.d4 .stat-value { color: var(--accent-green); }
+
+        /* Filter Tabs */
+        .filter-container {
+            margin-bottom: 1rem;
+        }
+
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .filter-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-cyan);
+            color: var(--text-primary);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border-color: transparent;
+            color: white;
+        }
+
+        /* Progress */
+        .progress-bar-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            white-space: nowrap;
+            min-width: 80px;
+        }
+
+        .progress-track {
+            flex: 1;
+            height: 8px;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* Flashcard */
+        .flashcard-container {
+            perspective: 2000px;
+            margin-bottom: 1.5rem;
+        }
+
+        .flashcard {
+            width: 100%;
+            min-height: 400px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .flashcard.flipped { transform: rotateY(180deg); }
+
+        .card-face {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .card-front {
+            background: linear-gradient(145deg, var(--bg-card), var(--bg-card-back));
+            border: 1px solid var(--border);
+        }
+
+        .card-back {
+            background: linear-gradient(145deg, var(--bg-card-back), #475569);
+            border: 1px solid var(--accent-purple);
+            transform: rotateY(180deg);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-shrink: 0;
+        }
+
+        .domain-badge {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .domain-1 { background: rgba(139,92,246,0.2); color: var(--accent-purple); }
+        .domain-2 { background: rgba(6,182,212,0.2); color: var(--accent-cyan); }
+        .domain-3 { background: rgba(245,158,11,0.2); color: var(--accent-yellow); }
+        .domain-4 { background: rgba(16,185,129,0.2); color: var(--accent-green); }
+        .domain-formulas { background: rgba(236,72,153,0.2); color: var(--accent-pink); }
+        .domain-concepts { background: rgba(59,130,246,0.2); color: var(--accent-blue); }
+
+        .priority-badge {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .priority-critical { background: var(--accent-red); color: white; }
+        .priority-high { background: var(--accent-yellow); color: #000; }
+        .priority-medium { background: var(--accent-blue); color: white; }
+
+        .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            text-align: center;
+            line-height: 1.7;
+        }
+
+        .card-footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            margin-top: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* Answer Styling */
+        .answer-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            text-align: center;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .answer-text {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-bottom: 0.75rem;
+        }
+
+        .tip-box {
+            background: rgba(139,92,246,0.1);
+            border-left: 3px solid var(--accent-purple);
+            padding: 0.6rem 0.8rem;
+            border-radius: 0 6px 6px 0;
+            margin-top: 0.75rem;
+        }
+
+        .tip-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            color: var(--accent-purple);
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .tip-text {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .wrong-box {
+            background: rgba(239,68,68,0.1);
+            border-left: 3px solid var(--accent-red);
+            padding: 0.5rem 0.75rem;
+            border-radius: 0 6px 6px 0;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .wrong-label {
+            color: var(--accent-red);
+            font-weight: 600;
+            font-size: 0.55rem;
+            text-transform: uppercase;
+        }
+
+        .wrong-text { color: var(--text-muted); }
+
+        .formula-box {
+            background: rgba(6,182,212,0.1);
+            border: 1px solid var(--accent-cyan);
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            text-align: center;
+            margin: 0.5rem 0;
+            color: var(--accent-cyan);
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .ctrl-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 0.75rem 1.25rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .ctrl-btn:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-2px);
+        }
+
+        .ctrl-btn.primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border: none;
+        }
+
+        .keyboard-hints {
+            text-align: center;
+            margin-top: 1.25rem;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+        }
+
+        kbd {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            margin: 0 0.15rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .flashcard { min-height: 450px; }
+            .card-face { padding: 1.25rem; }
+            h1 { font-size: 1.4rem; }
+        }
+
+        /* Scrollbar */
+        .card-body::-webkit-scrollbar { width: 4px; }
+        .card-body::-webkit-scrollbar-track { background: transparent; }
+        .card-body::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 2px; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>CompTIA Project+ PK0-005</h1>
+            <p class="subtitle">Complete Study Guide • 150+ Flashcards</p>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card d1">
+                <div class="stat-label">Domain 1</div>
+                <div class="stat-value">63%</div>
+            </div>
+            <div class="stat-card d2">
+                <div class="stat-label">Domain 2</div>
+                <div class="stat-value">63%</div>
+            </div>
+            <div class="stat-card d3">
+                <div class="stat-label">Domain 3</div>
+                <div class="stat-value">59%</div>
+            </div>
+            <div class="stat-card d4">
+                <div class="stat-label">Domain 4</div>
+                <div class="stat-value">75%</div>
+            </div>
+        </div>
+
+        <div class="filter-container">
+            <div class="filter-row">
+                <button class="filter-btn active" data-filter="all">All Cards</button>
+                <button class="filter-btn" data-filter="domain1">🎯 Domain 1</button>
+                <button class="filter-btn" data-filter="domain2">📋 Domain 2</button>
+                <button class="filter-btn" data-filter="domain3">🔧 Domain 3</button>
+                <button class="filter-btn" data-filter="domain4">🏛️ Domain 4</button>
+            </div>
+            <div class="filter-row">
+                <button class="filter-btn" data-filter="formulas">📊 Formulas</button>
+                <button class="filter-btn" data-filter="charts">📈 Charts</button>
+                <button class="filter-btn" data-filter="methodology">⚙️ Methodologies</button>
+                <button class="filter-btn" data-filter="concepts">💡 Key Concepts</button>
+            </div>
+        </div>
+
+        <div class="progress-bar-container">
+            <span class="progress-text" id="progressText">1 / 150</span>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill" style="width: 0.7%"></div>
+            </div>
+        </div>
+
+        <div class="flashcard-container">
+            <div class="flashcard" id="flashcard">
+                <div class="card-face card-front">
+                    <div class="card-header">
+                        <span class="domain-badge" id="domainBadge">Domain 1</span>
+                        <span class="priority-badge priority-critical" id="priorityBadge">CRITICAL</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="question-text" id="questionText">Loading...</p>
+                    </div>
+                    <div class="card-footer">Click card or press SPACE to flip</div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="card-header">
+                        <span class="domain-badge" id="domainBadgeBack">Domain 1</span>
+                    </div>
+                    <div class="card-body" id="answerBody">
+                        <h3 class="answer-title" id="answerTitle">Answer</h3>
+                        <p class="answer-text" id="answerText">Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="ctrl-btn" id="prevBtn">← Prev</button>
+            <button class="ctrl-btn primary" id="flipBtn">Flip</button>
+            <button class="ctrl-btn" id="nextBtn">Next →</button>
+            <button class="ctrl-btn" id="shuffleBtn">🔀 Shuffle</button>
+        </div>
+
+        <div class="keyboard-hints">
+            <kbd>Space</kbd> Flip <kbd>←</kbd><kbd>→</kbd> Navigate <kbd>S</kbd> Shuffle
+        </div>
+    </div>
+
+    <script>
+        const flashcards = [
+            // ============================================
+            // DOMAIN 3: TOOLS AND DOCUMENTATION (59% - WEAKEST)
+            // ============================================
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "critical",
+                question: "Software installed ONLY on the principal's desk computer that teachers must physically access. What type of installation is this?",
+                answer: "Local Installation",
+                explanation: "Local installation means software is limited to specific devices only. Teachers must physically go to that computer to use it. Offers significant security through physical access control.",
+                tip: "LOCAL = Limited to specific LOCATIONS. Like your local coffee shop - you have to GO THERE.",
+                wrong: "On-premises installation (installed on company servers/devices generally, not limited to specific workstations)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "critical",
+                question: "What is the BEST reason to recommend cloud backups instead of on-premises servers?",
+                answer: "Scalability",
+                explanation: "Cloud backups offer instant scalability - need more space? Get it immediately without purchasing additional servers. This is the primary advantage over on-premises for backups.",
+                tip: "CLOUD = Can grow LIMITLESSLY. Think of clouds expanding in the sky - infinite scalability.",
+                wrong: "Access (while convenient, scalability is the BEST reason for backups specifically)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "critical",
+                question: "Which tool estimates activity duration, shows dependencies, determines critical path, AND identifies bottlenecks?",
+                answer: "PERT (Program Evaluation and Review Technique)",
+                explanation: "PERT shows task sequencing, time estimates (O, M, P), dependencies, and enables critical path and bottleneck analysis. It's the COMPLETE scheduling analysis tool.",
+                tip: "PERT = PATH + ESTIMATES + REVIEW + TIMING. The complete scheduling picture.",
+                wrong: "Task boards (only show work status, not time estimates or dependencies)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "critical",
+                question: "Which tool analyzes LOW-PROBABILITY, HIGH-IMPACT risks like disasters or ransomware?",
+                answer: "Scenario Analysis (What-If Analysis)",
+                explanation: "Scenario analysis generates potential events and evaluates impacts through 'what if' brainstorming. Perfect for unlikely but devastating events.",
+                tip: "SCENARIO = 'What if THIS SCENE happened?' Think disaster movies - unlikely but huge impact.",
+                wrong: "PERT Chart (for scheduling, not risk analysis)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "critical",
+                question: "CJ needs an online location to track tasks and responsibilities for remote team work. Which tool?",
+                answer: "Workflow Platforms",
+                explanation: "Workflow platforms (Trello, Asana, Monday.com) are best for tracking progress, assigning tasks, and managing workflow among remote team members.",
+                tip: "WORKFLOW = WORK tracking + task FLOW. Task assignment and progress tracking.",
+                wrong: "Whiteboard (for visual brainstorming, not task assignment tracking)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "high",
+                question: "Scatter diagram shows plots lined up. What does this indicate?",
+                answer: "The Variables Are Correlated",
+                explanation: "Scatter diagrams show relationships between two variables. When dots line up in a pattern, it indicates correlation. Helps with root-cause analysis.",
+                tip: "SCATTER shows if things are RELATED. Dots clustered = correlated. Random = no correlation.",
+                wrong: "The project is in control (that's Control Charts, not scatter diagrams)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "high",
+                question: "Dini needs remote team document collaboration with VERSION CONTROL. Which tool?",
+                answer: "File Sharing Platforms",
+                explanation: "File sharing platforms (Google Drive, Dropbox, SharePoint) provide document management with version control - ensuring everyone uses latest versions.",
+                tip: "FILE SHARING = VERSION control. They track all file versions automatically.",
+                wrong: "Wikis (knowledge sharing, not optimized for collaborative document editing)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "high",
+                question: "Diagram using rectangles and arrows showing ONLY the flow of work. Which diagram?",
+                answer: "PDM (Precedence Diagram Method)",
+                explanation: "PDM uses rectangles (activities) and arrows (dependencies) to show work flow. Start on left, Finish on right. A starting point for other network diagrams.",
+                tip: "PDM = Pictorial Dependency Map. Rectangles + Arrows = Basic flow visualization.",
+                wrong: "Project network diagram (has more detail than just flow)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "high",
+                question: "Tool to produce a detailed written report for stakeholders?",
+                answer: "Word Processing Tools",
+                explanation: "Word processing tools are used for creating detailed written reports - writing, formatting, editing text documents.",
+                tip: "WORD processing = WRITTEN reports. Microsoft Word, Google Docs.",
+                wrong: "Spreadsheets (for data organization, not detailed reports)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "high",
+                question: "Which document is produced during the EXECUTION phase?",
+                answer: "Task Board",
+                explanation: "Task boards show work to be done and task status. PERT, risk registers, and risk reports are produced during PLANNING phase.",
+                tip: "EXECUTION = doing work = Task Boards track that work. Planning = planning tools (PERT, risk docs).",
+                wrong: "PERT (produced during planning phase)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "high",
+                question: "Martin discovered a bug in code. Where should he record it?",
+                answer: "Defect Log",
+                explanation: "Bugs are defects. Defect logs record situations where product doesn't meet requirements. Include ID, description, reproduction steps, priority, assignee, status.",
+                tip: "BUG = DEFECT. Defect log = bug tracker. Issues are external/out of control.",
+                wrong: "Issue log (issues are external events outside team's control)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "medium",
+                question: "Leon wants a visual showing how many tasks are in each category. Which chart?",
+                answer: "Histogram",
+                explanation: "Histograms show frequency distribution - horizontal axis shows categories/ranges, vertical shows frequency. Good for seeing distribution patterns.",
+                tip: "HISTOGRAM = How many in each group? Frequency distribution chart.",
+                wrong: "Ishikawa diagram (for root cause analysis, not frequency)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "medium",
+                question: "Ivan tracks training progress with months on x-axis, errors on y-axis. Which chart?",
+                answer: "Run Chart (Time Series Plot)",
+                explanation: "Run charts are line graphs displaying data over time. X-axis = time, Y-axis = measurement. Good for trend analysis without statistical analysis.",
+                tip: "RUN chart = data RUNNING over time. Time on x-axis = run chart.",
+                wrong: "Pareto chart (80/20 rule, not time-based)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "medium",
+                question: "Georgina wants to see team productivity per sprint iteration. Which chart?",
+                answer: "Velocity Chart",
+                explanation: "Velocity charts measure story points completed per sprint/iteration. Shows average velocity over time for capacity planning.",
+                tip: "VELOCITY = speed per iteration. How fast is the team going each sprint?",
+                wrong: "Burndown chart (shows remaining work, not velocity)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "medium",
+                question: "Fixed scope, flexible timeline project. Which chart shows progress best?",
+                answer: "Burnup Chart",
+                explanation: "Burnup charts show work completed vs total scope. Line starts at zero, moves up. Good for fixed scope, flexible timeline - shows scope creep too.",
+                tip: "BURNUP = work going UP. Fixed scope = see progress toward fixed goal.",
+                wrong: "Velocity chart (measures speed, not progress toward fixed scope)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "medium",
+                question: "Burndown chart shows actual line steadier than projected. What does this mean?",
+                answer: "Tasks completed at steadier pace than estimated",
+                explanation: "If actual completion is steadier than projected (which had fluctuations), it means team worked at more consistent pace than planned.",
+                tip: "Burndown: Steady actual vs bumpy projected = team is more consistent than expected.",
+                wrong: "Project is behind schedule (would show actual line above target)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "medium",
+                question: "Leslie plots ads vs customer spending for 5 months. Which visual?",
+                answer: "Scatter Diagram",
+                explanation: "Scatter diagrams plot two variables (X and Y axis) to determine if correlation exists. Each dot = one data point showing both variables.",
+                tip: "Two variables, checking relationship = SCATTER diagram. Dots show correlation.",
+                wrong: "Histogram (for frequency distribution of one variable)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "medium",
+                question: "Angela needs initial visualization for more detailed project network diagrams. Which tool?",
+                answer: "PDM (Precedence Diagram Method)",
+                explanation: "PDM is a starting point for other network diagrams. Simple rectangles and arrows showing dependencies. PERT and Gantt come later with more detail.",
+                tip: "PDM = PRELIMINARY diagram. Foundation for more detailed diagrams.",
+                wrong: "CPM (calculates critical path, needs complete diagram first)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "medium",
+                question: "Document for analyzing risks and their potential impacts?",
+                answer: "Risk Report",
+                explanation: "Risk reports summarize project's risk status and impacts. Helps stakeholders make informed decisions. Risk registers LOG risks; risk reports ANALYZE them.",
+                tip: "Risk REPORT = ANALYSIS for stakeholders. Risk register = just logging.",
+                wrong: "Risk register (logs risks, doesn't analyze them)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "medium",
+                question: "Fantasia has detailed cost/time info for component parts. Which estimation technique?",
+                answer: "Bottom-Up Estimation",
+                explanation: "Bottom-up starts with estimates for individual tasks and adds them up. More accurate but time-consuming. Best when detailed info is known.",
+                tip: "BOTTOM-UP = add up from the BOTTOM. Detailed info → detailed estimates.",
+                wrong: "Three-point estimation (uses O, M, P for single tasks)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "medium",
+                question: "Project managers need tools for document creation, data management, visual storytelling. Which category?",
+                answer: "Productivity Tools",
+                explanation: "Productivity tools help perform tasks efficiently - creating documents, managing data, organizing projects. Word processors, spreadsheets, presentation tools.",
+                tip: "PRODUCTIVITY = getting things done efficiently. Create, manage, organize.",
+                wrong: "Collaboration tools (for sharing/working together, not creating)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "medium",
+                question: "Chart showing ONLY how much budget has been spent each month?",
+                answer: "Burn Rate",
+                explanation: "Burn rate shows rate of cash consumption over time. Just spending, not compared to total. Budget burndown compares spending to total budget.",
+                tip: "BURN RATE = how fast money BURNS. Just spending, no comparison.",
+                wrong: "Budget forecast (looks at future, not past spending)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "medium",
+                question: "Key difference between a Defect and an Issue?",
+                answer: "Issue is out of team's control; Defect can be fixed by team",
+                explanation: "Issues are external events outside team's control. Defects are failures to meet requirements that the team CAN fix.",
+                tip: "ISSUE = external, can't control. DEFECT = internal, can fix.",
+                wrong: "Issue is something that might happen (that's a Risk)"
+            },
+            {
+                domain: "domain3", domainLabel: "Domain 3: Tools", priority: "medium",
+                question: "High degree of uncertainty, large expensive project. Which method for contingency buffer?",
+                answer: "EMV (Expected Monetary Value)",
+                explanation: "EMV = Probability × Impact. Calculates average outcome under uncertainty. Used to determine contingency buffer for large, risky projects.",
+                tip: "EMV = Expected Money Value. Probability × Impact for each risk, then add up.",
+                wrong: "Monte Carlo (simulations, good but EMV is more direct for contingency)"
+            },
+
+            // ============================================
+            // DOMAIN 1: PROJECT MANAGEMENT CONCEPTS (63%)
+            // ============================================
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "critical",
+                question: "Two team members in conflict over task distribution. PM sees it as natural stage. Which stage?",
+                answer: "Storming",
+                explanation: "Storming = conflict as team establishes roles and challenges boundaries. Second stage after Forming. Norming = conflict resolves, team settles.",
+                tip: "STORMING = STORMS (conflict). Think thunderstorm - things get turbulent.",
+                wrong: "Norming (when conflict RESOLVES and team settles into working mode)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "critical",
+                question: "What factor for calculating shared resource CAPACITY?",
+                answer: "Availability of Team Members",
+                explanation: "Shared resource capacity depends on availability and skills of team members managing those resources. Budget/timeline/risks are overall PM concerns.",
+                tip: "CAPACITY = who's AVAILABLE. People determine how much can be done.",
+                wrong: "Project budget (important but doesn't directly calculate resource capacity)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "critical",
+                question: "Michael represents customer interests, prioritizes requirements throughout project. Which role?",
+                answer: "Product Owner",
+                explanation: "Product Owner (Agile) represents customers, prioritizes backlog, ensures product meets expectations. Voice of the customer.",
+                tip: "Product OWNER = OWNS the customer's vision. OWNS the backlog priorities.",
+                wrong: "Project manager (manages project overall, doesn't specifically represent customer)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "critical",
+                question: "Methodology aimed at developer quality of life AND software quality?",
+                answer: "XP (Extreme Programming)",
+                explanation: "XP emphasizes sustainable pace, frequent releases, customer focus. Built on communication, simplicity, feedback, respect, courage.",
+                tip: "XP = eXcellent for Programmers. Developer-friendly, sustainable methodology.",
+                wrong: "SDLM (sequential phases, not focused on developer wellbeing)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "critical",
+                question: "Company: precise documentation, executive oversight, process-focused. Which methodology?",
+                answer: "PRINCE2",
+                explanation: "PRINCE2 = process-based with clear phases, defined roles, predefined tasks. Greater upper management involvement, documentation focus.",
+                tip: "PRINCE2 = PRojects IN Controlled Environments. Royalty = formal, documented, executive control.",
+                wrong: "XP (gives developers freedom, opposite of executive oversight)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "critical",
+                question: "Major drawback for 'perfectionist companies' in issue management?",
+                answer: "They Discourage Reporting of Issues",
+                explanation: "Perfectionist companies want to appear perfect. Employees reluctant to report issues because issues = imperfection.",
+                tip: "PERFECTIONIST = hide PROBLEMS. Nobody wants to report 'imperfection'.",
+                wrong: "They take too long to resolve (perfectionism affects reporting, not resolution)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "critical",
+                question: "Observed design flaw, now finding root cause. Which issue management step?",
+                answer: "Analyze the Issue",
+                explanation: "After identifying, you ANALYZE to understand root cause and evaluate impact. Then evaluate options, go to CCB, etc.",
+                tip: "IDENTIFY (spot it) → ANALYZE (understand WHY). Analysis = digging into cause.",
+                wrong: "Identify the issue (already done when flaw was observed)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "critical",
+                question: "Which methodology most closely mirrors Waterfall?",
+                answer: "SDLM (Software Development Life Cycle Methodology)",
+                explanation: "SDLM uses sequential phases: planning → requirements → design → development → deployment → maintenance. Same as Waterfall.",
+                tip: "SDLM = Sequential = Same as Waterfall. Both flow DOWN through phases.",
+                wrong: "SAFe (Scaled Agile Framework - it's Agile, not sequential)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "critical",
+                question: "Tables setup at 11:00 (2 hrs). Caterer at 12:00 (1.5 hrs). Caterer starts after tables START. Dependency?",
+                answer: "SS (Start-to-Start)",
+                explanation: "Start-to-Start = one activity can begin once another has BEGUN. Caterer starts after tables setup STARTS, doesn't wait for completion.",
+                tip: "SS = Start when they Start. Both happening in parallel once first kicks off.",
+                wrong: "FS (Finish-to-Start = tables must be COMPLETE before caterer starts)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "critical",
+                question: "New servers must be COMPLETE before data migration begins. Dependency type?",
+                answer: "FS (Finish-to-Start)",
+                explanation: "Finish-to-Start = first activity must be FULLY COMPLETED before second can begin. Most common dependency type.",
+                tip: "FS = Finish before Start. One must END before next BEGINS. No overlap.",
+                wrong: "SS (would mean both could happen simultaneously)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "high",
+                question: "In Agile, what's equivalent to a work package?",
+                answer: "User Story",
+                explanation: "User stories are smallest deliverable components in Agile, like work packages in traditional PM. Both = specific deliverables completable in iteration.",
+                tip: "USER STORY = smallest unit of WORK. Bite-sized deliverable.",
+                wrong: "Epic (too big - epics break DOWN into user stories)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "high",
+                question: "Purpose of HLD in solution design documents?",
+                answer: "Overview of project approach and final solution",
+                explanation: "High-Level Design gives stakeholders bird's-eye view of direction, scope, approach, and ultimate solution. Big picture overview.",
+                tip: "HLD = HIGH view = overview. Helicopter view - whole landscape, not details.",
+                wrong: "Implementation instructions (that's Low-Level Design)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "high",
+                question: "Guillermo creates schedule with steady pace to prevent burnout. What is he crafting?",
+                answer: "Cadence",
+                explanation: "Cadence sets the pace of project activities. Designed to ensure steady work rate and limit burnout. Influenced by team size and meeting frequency.",
+                tip: "CADENCE = pace/rhythm. Like music - steady beat prevents burnout.",
+                wrong: "Sprint goals (products completed in iterations, not the overall pace)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "high",
+                question: "First step in resource management process?",
+                answer: "Conducting a Needs Assessment",
+                explanation: "Needs assessment determines what resources will be needed. Must know needs before estimating, allocating, or monitoring.",
+                tip: "First = What do we NEED? Needs assessment before anything else.",
+                wrong: "Estimating necessary resources (comes after knowing what's needed)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "high",
+                question: "Role that compares company systems with project needs so solutions don't exceed capabilities?",
+                answer: "Architect",
+                explanation: "Architects are responsible for design decisions and solutions. Compare systems to needs and design solutions that fit system capabilities.",
+                tip: "ARCHITECT = designs solutions within system limits. Technical design expert.",
+                wrong: "Business analyst (intermediary between business and IT, not technical design)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "high",
+                question: "Resource optimization: reduce variations WITHOUT changing end date?",
+                answer: "Resource Smoothing",
+                explanation: "Resource smoothing redistributes workloads using free float to reduce variation. END DATE STAYS FIXED. Leveling can extend timeline.",
+                tip: "SMOOTHING = smooth out bumps, keep deadline. LEVELING = can change deadline.",
+                wrong: "Resource leveling (allows timeline to extend)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "high",
+                question: "Purpose of gap analysis in project performance management?",
+                answer: "Identify differences between expected and actual results; guide solutions",
+                explanation: "Gap analysis compares expected vs actual to identify variances. Enables informed decisions to improve outcomes.",
+                tip: "GAP = the difference between where you ARE and where you want to BE.",
+                wrong: "Track expenses over time (that's budget tracking)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "high",
+                question: "Neville: 25 years at company, knows business/technical sides, keeps projects aligned. Role?",
+                answer: "Business Analyst",
+                explanation: "Business analysts understand business needs AND technical aspects. Intermediary between company and teams. Keep projects aligned with business requirements.",
+                tip: "Business Analyst = BRIDGE between business and technical. Alignment expert.",
+                wrong: "SME (has specific expertise but doesn't bridge business/technical)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "high",
+                question: "Purpose of issue log in project management?",
+                answer: "Record and track identified issues in a centralized list",
+                explanation: "Issue log is centralized list for recording and tracking issues. Allows decision-makers to compare priority and allocate resources.",
+                tip: "Issue LOG = LOG issues centrally. Track and prioritize in one place.",
+                wrong: "Prioritize issues based on severity (that's analyzing, not logging)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "high",
+                question: "Software completed, bringing to customer for normal usage testing. Which test?",
+                answer: "User Acceptance Testing (UAT)",
+                explanation: "UAT evaluates final outputs against specifications to determine if user would accept. Tests if product satisfies business requirements.",
+                tip: "UAT = User ACCEPTS? Final customer validation before go-live.",
+                wrong: "Stress testing (tests extreme conditions, not normal usage)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "high",
+                question: "Risk owner assigned for ransomware risk. Which step?",
+                answer: "Treat the Risk",
+                explanation: "Treating risk involves creating strategy, assigning owner, developing response plan. Comes after identifying and analyzing.",
+                tip: "TREAT = assign owner + create response plan. Take action on the risk.",
+                wrong: "Monitor the risk (tracking after treatment strategy is in place)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "high",
+                question: "Toby wants goals that are clear, trackable, aligned, achievable. Which framework?",
+                answer: "SMART Objectives",
+                explanation: "SMART = Specific, Measurable, Achievable, Relevant, Time-bound. More likely to be achieved because clearly defined.",
+                tip: "SMART goals are SMART choices. Specific + Measurable + Achievable + Relevant + Time-bound.",
+                wrong: "OKRs (aspirational, slightly out of reach - opposite of achievable)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "high",
+                question: "Project manager has complete control over resources and authority to assign tasks. Structure?",
+                answer: "Projectized",
+                explanation: "Projectized = PM has complete control over project resources and full authority. In Matrix, team gets work from both functional and project managers.",
+                tip: "PROJECTIZED = PM is the PROJECT boss. Complete control.",
+                wrong: "Matrix (shared control between functional and project managers)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "high",
+                question: "PMO with middle ground: some monitoring, manages communication, not excessive control?",
+                answer: "Controlling PMO",
+                explanation: "Controlling PMO actively monitors, coordinates resources, sets some standards. Middle ground between Supportive (hands-off) and Directive (full control).",
+                tip: "CONTROLLING = Goldilocks PMO. Not too much, not too little control.",
+                wrong: "Supportive (just a library of info, no enforcement)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "high",
+                question: "PMO that sets all rules, full authority, prioritizes and assigns all PMs?",
+                answer: "Directive PMO",
+                explanation: "Directive PMO has full authority over projects, standards, procedures. Prioritizes projects and allocates PMs. Focuses on organizational strategy.",
+                tip: "DIRECTIVE = DIRECTS everything. Full authority and control.",
+                wrong: "Controlling (monitors but doesn't have full authority)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "high",
+                question: "JAD workshop involves what?",
+                answer: "Customers taking part in design process of a product",
+                explanation: "Joint Application Development = customers participate in design. Working session where team and customer design together. Good for insights and support.",
+                tip: "JAD = Joint design with customers. They're in the room designing WITH you.",
+                wrong: "Brainstorming (generating ideas, not design decisions)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "high",
+                question: "Two-way focus group has what characteristic?",
+                answer: "One group observes another group's session",
+                explanation: "Two-way focus groups let one group watch another discuss. Then first group discusses what they heard. More perspective, complex responses.",
+                tip: "TWO-WAY = two groups, one watches. More perspectives.",
+                wrong: "Respondent-moderator (participants act as moderators)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "medium",
+                question: "Difference between Waterfall and Agile: Product Owner role?",
+                answer: "Waterfall doesn't have a Product Owner",
+                explanation: "Product Owner is an Agile role - represents customer, prioritizes backlog. Waterfall doesn't use this role structure.",
+                tip: "Product Owner = AGILE only. Waterfall has different role structure.",
+                wrong: "Agile uses PO as project manager (PO and PM are different roles)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "medium",
+                question: "Calculate how many days can delay task without impacting NEXT task's early start?",
+                answer: "FF (Free Float)",
+                explanation: "Free Float = amount of delay without affecting the NEXT task. Total Float = delay without affecting project END. Different scopes.",
+                tip: "FREE Float = freedom before next task. TOTAL Float = freedom before project end.",
+                wrong: "Total Float (affects project timeline, not just next task)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "medium",
+                question: "Large organization, multiple teams, need to scale Agile with some hierarchy?",
+                answer: "SAFe (Scaled Agile Framework)",
+                explanation: "SAFe expands Agile across multiple teams. Adds hierarchy and overhead which may limit individual team autonomy. Good for large organizations.",
+                tip: "SAFe = SCALE Agile to enterprise. Multiple teams, some hierarchy.",
+                wrong: "Scrum (single team focus, doesn't scale to enterprise)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "medium",
+                question: "TOR (Terms of Reference) is used for what?",
+                answer: "Consultancy or research work - focuses on relationship",
+                explanation: "TOR is like SOW but focuses on RELATIONSHIP between customer and client. Common for consulting and research projects.",
+                tip: "TOR = Terms of Relationship. SOW for consulting/research.",
+                wrong: "SOW (more focused on deliverables than relationship)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "medium",
+                question: "Cost-plus award fee (CPAF) contract means?",
+                answer: "Fixed fee upfront + bonus based on performance evaluation",
+                explanation: "CPAF = vendor paid fixed fee when contract signed. Additional bonus awarded based on performance criteria like time, quality, innovation.",
+                tip: "CPAF = Cost Plus AWARD for good work. Base fee + performance bonus.",
+                wrong: "CPIF (incentive is set amount, not evaluated award)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "medium",
+                question: "FMEA (Failure Mode and Effects Analysis) is used for?",
+                answer: "Manufacturing/product design - detailed process analysis for risks",
+                explanation: "FMEA analyzes single process in detail to identify multiple risks. Scores risks on probability, impact, detectability. Common in manufacturing.",
+                tip: "FMEA = Find Manufacturing's Every flaw Analysis. Detailed process risk analysis.",
+                wrong: "Scenario analysis (for low-probability, high-impact events)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "medium",
+                question: "Quality escape means?",
+                answer: "Deliverable with defect goes undetected by quality team",
+                explanation: "Quality escape = defect escapes quality testing and reaches customer. Unacceptable deviation that wasn't caught.",
+                tip: "Quality ESCAPE = defect ESCAPED detection. Slipped through testing.",
+                wrong: "Risk (something that might happen, not something that escaped)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "medium",
+                question: "Simulation in risk analysis requires what to make predictions?",
+                answer: "Probability distributions for each outcome",
+                explanation: "Simulations are quantitative risk analysis using probability distributions. Run many scenarios to predict likely outcomes.",
+                tip: "Simulation = run scenarios with probabilities. Quantitative approach.",
+                wrong: "Interconnectivity analysis (qualitative, examines risk relationships)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "medium",
+                question: "Testing system stability under various expected workloads?",
+                answer: "Performance Testing",
+                explanation: "Performance testing evaluates stability and speed under various normal workloads. Stress testing = extreme/unexpected conditions.",
+                tip: "PERFORMANCE = normal conditions. STRESS = extreme conditions.",
+                wrong: "Stress testing (exceeds expected workload)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "medium",
+                question: "NOT a crucial skill for successful project managers?",
+                answer: "Coding Skills",
+                explanation: "PMs need adaptability, interpersonal relationships, planning abilities. Coding is not required - PMs oversee work, may not code themselves.",
+                tip: "PMs MANAGE, not code. Soft skills > technical coding skills.",
+                wrong: "Interpersonal relationships (crucial for PM success)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "medium",
+                question: "Scratch on car from garage door. What type of issue severity?",
+                answer: "Low",
+                explanation: "Low severity = doesn't affect functionality, address in regular releases. Car still runs, no workaround needed. Critical = system unusable. Major = feature unavailable.",
+                tip: "LOW = cosmetic, still works. CRITICAL = can't use at all.",
+                wrong: "Minor (requires workaround - scratch doesn't need workaround)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "medium",
+                question: "2019 CEO anticipated pandemic, expanded meal delivery. Risk response?",
+                answer: "Enhancement",
+                explanation: "Enhancement maximizes positive impact of an opportunity. Steps to benefit if risk occurs. Opposite of mitigation (reducing negative risk).",
+                tip: "ENHANCEMENT = make good things better. Maximize opportunity.",
+                wrong: "Acceptance (do nothing approach)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "medium",
+                question: "Benefit measurement models most often measure?",
+                answer: "Financial Considerations",
+                explanation: "Benefit measurement models choose projects based on financial benefits - ROI, NPV, consumer demand. Non-economic models consider social benefits, citizenship.",
+                tip: "Benefit measurement = FINANCIAL benefits. Money-focused selection.",
+                wrong: "Social benefits (part of non-economic/qualitative models)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "medium",
+                question: "Three-point estimate formula: O=20, M=24, P=25. Answer?",
+                answer: "23",
+                explanation: "Three-point estimate (simple average) = (O + M + P) / 3 = (20 + 24 + 25) / 3 = 69 / 3 = 23",
+                tip: "Simple three-point = add all three, divide by 3. (O+M+P)/3",
+                wrong: "24 (that would be if you weighted M differently - this is simple average)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "medium",
+                question: "DevSecOps requires what type of teams?",
+                answer: "Cross-functional teams with development, security, and operations skills",
+                explanation: "DevSecOps integrates development, security, and IT operations. Requires team members with wide variety of skills and combinations of expertise.",
+                tip: "DevSecOps = Dev + Sec + Ops in one team. Cross-functional required.",
+                wrong: "Specialized single-skill teams (opposite of DevSecOps approach)"
+            },
+            {
+                domain: "domain1", domainLabel: "Domain 1: PM Concepts", priority: "medium",
+                question: "Agile teams are typically what size?",
+                answer: "Small and focused (3-10 members)",
+                explanation: "Agile teams are small by design (3-10) to facilitate communication and collaboration. Waterfall teams can be any size.",
+                tip: "AGILE = small teams. Small = better communication.",
+                wrong: "Large for cross-functionality (Agile prefers small regardless)"
+            },
+
+            // ============================================
+            // DOMAIN 2: PROJECT LIFE CYCLE PHASES (63%)
+            // ============================================
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "critical",
+                question: "WBS guideline for highly skilled workers: focus on OUTCOMES, not tasks?",
+                answer: "Plan Around Outcomes",
+                explanation: "Plan around outcomes = give skilled workers the 'what' (outcomes), let them decide 'how'. Task-level detail unnecessary for experts.",
+                tip: "OUTCOMES for EXPERTS. Trust skilled people with destination, let them choose route.",
+                wrong: "MECE (about avoiding overlap/gaps, not outcome focus)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "critical",
+                question: "Parts of Project Management Plan: WBS, Baselines, Milestones, and ___?",
+                answer: "Approvals",
+                explanation: "PMP includes: WBS, Baselines, Milestones, and Approvals. Sprints and Retrospectives are Agile events, not PMP components.",
+                tip: "PMP = WBS + Baselines + Milestones + APPROVALS. 'WBMA'",
+                wrong: "Sprints (Agile events, not PMP components)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "critical",
+                question: "Project charter section with timelines, resources, milestones?",
+                answer: "Implementation Overview",
+                explanation: "Implementation Overview contains: timelines, milestones, resource requirements, risks, assumptions, budget. The 'how we'll do it' section.",
+                tip: "IMPLEMENTATION = how to IMPLEMENT = timelines, resources, milestones.",
+                wrong: "General project information (just project name, description, PM, sponsor)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "critical",
+                question: "Marius is PM in a RAM. Which category?",
+                answer: "Accountable",
+                explanation: "In RACI, PM is always Accountable - ultimately responsible. Must approve tasks. Only ONE Accountable person per task.",
+                tip: "PM = Accountable. 'A' = approval authority. One 'A' per task = PM.",
+                wrong: "Responsible (who DOES the work, not who's ultimately accountable)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "critical",
+                question: "Documents created during INITIATION: Charter, RAM, and ___?",
+                answer: "Stakeholder Engagement Plan",
+                explanation: "Initiation = Charter, RAM, Stakeholder Engagement Plan. PMP = Planning phase. ROI, Current/Future State = Preparation phase.",
+                tip: "INITIATION = get STARTED documents. Need these to BEGIN.",
+                wrong: "Current State vs Future State (Preparation phase)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "critical",
+                question: "SECOND step in Organizational Change Management (OCM)?",
+                answer: "Identify what people will need to DO differently",
+                explanation: "OCM: 1) Identify WHO needs to change → 2) Identify WHAT they do differently → 3) Facilitate transition → 4) Monitor/reinforce.",
+                tip: "First WHO, then WHAT. Step 2 = WHAT changes for them.",
+                wrong: "Identify groups (that's Step 1)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "critical",
+                question: "THIRD step in OCM?",
+                answer: "Facilitate the Transition",
+                explanation: "Step 3 = Facilitate transition with training and company support. After identifying who and what, help them make the change.",
+                tip: "Step 3 = FACILITATE (help them change). Training and support.",
+                wrong: "Monitor and reinforce (that's Step 4, the last step)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "critical",
+                question: "Method using paths and uncertainties to visualize potential outcomes for reserves?",
+                answer: "Decision Tree Analysis",
+                explanation: "Decision tree uses branching paths with probabilities to visualize scenarios. Used for contingency planning and quantitative decision-making.",
+                tip: "DECISION TREE = branches like TREE showing PATHS. Each branch = scenario.",
+                wrong: "Monte Carlo (uses simulations, not visual path-based trees)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "high",
+                question: "Botanist joins temporarily for expertise. Team member type?",
+                answer: "Extended Team Member",
+                explanation: "Extended team members = temporary experts brought in for specific issues. Provide special knowledge/skills lacking on core team.",
+                tip: "EXTENDED = EXTRA help temporarily. EXTEND team capabilities.",
+                wrong: "Developer (builds the product, not temporary expert)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "high",
+                question: "Transition plan part with playbooks, configurations, specifications?",
+                answer: "Product Documentation",
+                explanation: "Product documentation = specs, configs, playbooks, artifacts. Permanent record of what was built.",
+                tip: "PRODUCT DOCS = how the PRODUCT works. Everything about deliverable.",
+                wrong: "Tools and techniques (processes/methods, not product-specific docs)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "high",
+                question: "Generic term for ANY document needed for project (audits, plans, budgets)?",
+                answer: "Record",
+                explanation: "Record = generic term for any project artifact. Includes past events, budgets, audit results, plans. Umbrella term for all documentation.",
+                tip: "RECORD = everything is RECORDED. Any document = a record.",
+                wrong: "Project Management Artifacts (too specific - only PM docs)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "high",
+                question: "Final step in assessing project's resource pool?",
+                answer: "Address the Gaps",
+                explanation: "Steps: 1) Understand requirements → 2) Identify current resources → 3) Identify gaps → 4) ADDRESS gaps. Take action to fix deficiencies.",
+                tip: "Last step = FIX it. Address the gaps by taking action.",
+                wrong: "Identify resource gaps (Step 3, before addressing)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "high",
+                question: "When is validation of deliverables performed?",
+                answer: "Closing Phase",
+                explanation: "Validation = presenting outputs to customer for acceptance/rejection. Subjective process outside team, on finished deliverables, during closing.",
+                tip: "VALIDATION = customer says yes/no. Closing phase activity.",
+                wrong: "Initiation phase (too early, no deliverables yet)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "high",
+                question: "Charter section identifying stakeholders, customers, roles, team members, org chart?",
+                answer: "Organization Overview",
+                explanation: "Organization Overview = WHO's involved. Stakeholders, customers, roles, team members, org chart.",
+                tip: "ORGANIZATION = the people/structure. Who's involved.",
+                wrong: "Project vision (objectives, purpose, scope, benefits)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "high",
+                question: "Purpose of RAM in project management?",
+                answer: "Allocate and supervise tasks effectively",
+                explanation: "RAM (Responsibility Assignment Matrix) / RACI clarifies roles for tasks. Who's Responsible, Accountable, Consulted, Informed.",
+                tip: "RAM = Role Assignment Matrix. Who does what.",
+                wrong: "Build stakeholder relationships (that's stakeholder management)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "high",
+                question: "Purpose of stakeholder engagement matrix?",
+                answer: "Assess influence and interest of stakeholders in project",
+                explanation: "Stakeholder engagement matrix evaluates influence and interest. Helps create engagement strategies and tailor communication.",
+                tip: "Engagement matrix = measure INTEREST and INFLUENCE. Who matters most.",
+                wrong: "Identify financial contributions (not the purpose)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "high",
+                question: "Transition plan part listing all tasks needed during handoff?",
+                answer: "Activities",
+                explanation: "Activities = list of all tasks for handoff. Roles & responsibilities = who owns what. Schedule = when. Product docs = specs/configs.",
+                tip: "ACTIVITIES = what to DO. Task list for transition.",
+                wrong: "Transition schedule (when, not what)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "high",
+                question: "Transition plan: processes needed for project foundation to last?",
+                answer: "Tools and Techniques",
+                explanation: "Tools and techniques = processes and means for foundation to last into future. How to maintain what was built.",
+                tip: "TOOLS & TECHNIQUES = how to keep it working. Maintenance processes.",
+                wrong: "Activities (task list, not ongoing processes)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "high",
+                question: "Transition plan: how ongoing skill development will occur?",
+                answer: "Operational Training",
+                explanation: "Operational training = continued skill development for use, maintenance, and improvement of project foundation.",
+                tip: "OPERATIONAL TRAINING = teach people to OPERATE it long-term.",
+                wrong: "Maintenance schedule (activities for continuation, not training)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "high",
+                question: "When is business case created?",
+                answer: "Preparation Phase",
+                explanation: "Business case = first project proposal, argument for existence. Created during preparation, before initiation.",
+                tip: "Business case = BEFORE project starts. Preparation phase.",
+                wrong: "Initiation phase (business case justifies starting initiation)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "high",
+                question: "When is initial risk assessment completed?",
+                answer: "Planning Phase",
+                explanation: "Initial risk assessment = first attempt to list and assess risks. Done during planning, not initiation.",
+                tip: "Risk assessment = PLANNING. Need to know project scope first.",
+                wrong: "Preparation phase (too early, project not defined yet)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "high",
+                question: "When is backlog first created?",
+                answer: "Planning Phase",
+                explanation: "Backlog created in planning, refined during execution. Contains work to complete, prioritized with well-understood items at top.",
+                tip: "BACKLOG = PLANNING. Then refined during execution.",
+                wrong: "Execution phase (backlog must exist before execution)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "high",
+                question: "When are stakeholders identified and evaluated?",
+                answer: "Initiation Phase",
+                explanation: "Stakeholder identification is first step in stakeholder plan. Need to know who's impacted to communicate properly.",
+                tip: "STAKEHOLDERS = early in INITIATION. Know who's involved first.",
+                wrong: "Preparation phase (stakeholders identified after project approved)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "high",
+                question: "When does project kickoff meeting occur?",
+                answer: "After initiation phase (start of planning)",
+                explanation: "Kickoff brings team together for shared understanding. Happens after initiation, before detailed planning.",
+                tip: "KICKOFF = after INITIATION. Team comes together to start.",
+                wrong: "After planning phase (too late, need to align before planning)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "high",
+                question: "Phase-gate review reveals work incomplete. Decision?",
+                answer: "Stay in Current Phase",
+                explanation: "If phase not complete, stay and finish. Don't proceed until criteria met. Don't cancel if work can be finished.",
+                tip: "Not done? STAY. Finish the phase before moving on.",
+                wrong: "Proceed to next phase (work isn't complete)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "high",
+                question: "Jarren saying goodbye to team at project end. Activity?",
+                answer: "Releasing Resources",
+                explanation: "People are resources. Saying goodbye = releasing resources. Celebration should be more elaborate than goodbye.",
+                tip: "Goodbye = RELEASING resources. People are project resources.",
+                wrong: "Celebration (should be more elaborate than just goodbye)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "medium",
+                question: "WBS guideline: distinct elements, no overlap, complete scope?",
+                answer: "MECE (Mutually Exclusive, Collectively Exhaustive)",
+                explanation: "MECE = no overlaps (mutually exclusive) and no gaps (collectively exhaustive). Avoids duplicate work and missed work.",
+                tip: "MECE = no overlaps, no gaps. Each element unique, all together = complete.",
+                wrong: "100% rule (complete all work but doesn't address overlap)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "medium",
+                question: "WBS guideline: 8-80 hours of work, measurable deliverable?",
+                answer: "Level Responsibility",
+                explanation: "Level responsibility = appropriate detail level. Work 8-80 hours, within reporting period, results in measurable deliverable.",
+                tip: "8-80 rule = Level responsibility. Right SIZE of work package.",
+                wrong: "MECE (about overlap/gaps, not work package size)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "medium",
+                question: "Glasl's Stages of Conflict Escalation has how many stages?",
+                answer: "9 stages",
+                explanation: "9 stages in 3 levels: 1-3 = win-win, 4-6 = win-lose, 7-9 = lose-lose.",
+                tip: "GLASL = 9 stages. 3 levels of 3 stages each.",
+                wrong: "8 stages"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "medium",
+                question: "Boss highlights similarities, asks to build agreement. Conflict technique?",
+                answer: "Smoothing",
+                explanation: "Smoothing = minimize differences, highlight common interests. Maintain team harmony by focusing on what's shared.",
+                tip: "SMOOTHING = smooth over differences. Focus on similarities.",
+                wrong: "Collaborating (seeks win-win solution, not just common ground)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "medium",
+                question: "Communication plan element: dashboard is what type?",
+                answer: "Communication Artifact",
+                explanation: "Artifacts = tangible documents (dashboards, presentations, reports). Channel = where artifact appears. Goal = desired outcome.",
+                tip: "ARTIFACT = the thing you create. Dashboard, report, presentation.",
+                wrong: "Communication channel (that's WHERE, dashboard is WHAT)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "medium",
+                question: "Parts of communication plan?",
+                answer: "Goals, Outcomes, Channels, Artifacts",
+                explanation: "Communication plan = Goals, Outcomes, Channels, Artifacts. Retrospectives are project review, not communication plan.",
+                tip: "Communication plan = GOCA. Goals, Outcomes, Channels, Artifacts.",
+                wrong: "Retrospectives (Agile review process, not communication element)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "medium",
+                question: "Business case section with synopsis written LAST?",
+                answer: "Executive Summary",
+                explanation: "Executive summary = few sentences summarizing business case. Write LAST so it accurately summarizes everything.",
+                tip: "EXECUTIVE SUMMARY = summary = write LAST. Summarize the finished document.",
+                wrong: "Problem statement (write early to define the problem)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "medium",
+                question: "Business case section with three to five approaches including 'do nothing'?",
+                answer: "The Options",
+                explanation: "Options section explores 3-5 solutions with pros/cons. 'Do nothing' should always be one option.",
+                tip: "OPTIONS = multiple choices including 'do nothing'. Compare approaches.",
+                wrong: "Problem analysis (explains why project needed, not solution options)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "medium",
+                question: "Business case items typically included?",
+                answer: "Executive summary, Problem statement, Options, Project definition",
+                explanation: "Business case = Executive summary, Problem statement, Options (solutions), Project definition.",
+                tip: "Business case = problem + options + definition + executive summary.",
+                wrong: "Missing 'The Options'"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "medium",
+                question: "Planning phase activity: define units of work?",
+                answer: "Yes - Define units of work is Planning phase",
+                explanation: "Units of work = project decomposed into small completable pieces. Defined in planning. RAM and communication channels = initiation.",
+                tip: "UNITS OF WORK = break down work = PLANNING.",
+                wrong: "Develop RAM (Initiation phase)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "medium",
+                question: "New employee needs overview of machines and processes. What helps most?",
+                answer: "Training",
+                explanation: "Training = full view of concepts, management, usage. Best for newcomers. Knowledge bases = quick reference for specific problems later.",
+                tip: "NEW employee = TRAINING first. Overview before reference materials.",
+                wrong: "Documentation (technical, for developers/technicians)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "medium",
+                question: "End user needs short, easy solution to a product problem. Consult what?",
+                answer: "Knowledge Base",
+                explanation: "Knowledge base = instructions, articles, troubleshooting tips. Small, easy-to-read pieces. Quick reference for specific problems.",
+                tip: "KNOWLEDGE BASE = quick answers. Short, targeted help.",
+                wrong: "Documentation (too technical and detailed for quick problem solving)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "medium",
+                question: "Identifying stakeholders: first activity in stakeholder plan?",
+                answer: "Identify Stakeholders",
+                explanation: "First = identify who stakeholders are. Then understand them, prioritize, then develop engagement plan.",
+                tip: "First = WHO are they? Then understand, prioritize, engage.",
+                wrong: "Prioritize stakeholders (need to identify before prioritizing)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "medium",
+                question: "Preexisting contract with consultant. Document for specific project needs?",
+                answer: "Client TOR (Terms of Reference)",
+                explanation: "Client TOR = details for specific project when contract already exists. TOR focuses on relationship, provides project-specific details.",
+                tip: "Existing contract + new project = CLIENT TOR. Specific project details.",
+                wrong: "New contract (already have master contract)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "medium",
+                question: "SOW with performance standards but vendor decides how to meet them?",
+                answer: "Performance SOW",
+                explanation: "Performance SOW = minimum performance standards. HOW work is done is up to vendor, as long as standards met.",
+                tip: "PERFORMANCE SOW = what performance level, not how to achieve it.",
+                wrong: "Functional SOW (describes requirements, vendor has full flexibility)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "medium",
+                question: "Picking first subjective risk assessment method?",
+                answer: "Qualitative Risk Analysis",
+                explanation: "Qualitative = subjective, fast, intuitive. Uses high/medium/low descriptors. Good first step. Quantitative = data-driven, takes longer.",
+                tip: "QUALITATIVE = Quick and subjective. QUANTITATIVE = data-driven.",
+                wrong: "Quantitative (takes time, needs data)"
+            },
+            {
+                domain: "domain2", domainLabel: "Domain 2: Life Cycle", priority: "medium",
+                question: "Software company planning to use for 10+ years. Cost-effective option?",
+                answer: "Buy",
+                explanation: "Buying = higher upfront cost but slower ongoing costs. For 10+ year use, buying is more cost-effective than subscription/lease.",
+                tip: "Long-term use = BUY. Pay more now, save over time.",
+                wrong: "Subscription (ongoing costs add up over 10 years)"
+            },
+
+            // ============================================
+            // DOMAIN 4: BASICS OF IT AND GOVERNANCE (75%)
+            // ============================================
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "high",
+                question: "Complete database solution with third-party maintenance. Cloud model?",
+                answer: "XaaS (Anything as a Service)",
+                explanation: "XaaS = comprehensive outsourced solution. Everything needed for complete system including maintenance. Databases often XaaS due to complexity.",
+                tip: "XaaS = X = EVERYTHING. Complete package managed by third party.",
+                wrong: "PaaS (provides platform/dev tools, not complete managed solution)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "high",
+                question: "Increase PHYSICAL security against intruders?",
+                answer: "Removable Media Locks",
+                explanation: "Removable media locks = physical ports blocked. USB and optical media ports secured. Background checks and clearance = operational security.",
+                tip: "PHYSICAL = physical locks. Block the physical ports.",
+                wrong: "Clearance requirements (operational/personnel security)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "high",
+                question: "Paid volunteer time to employees is which ESG factor?",
+                answer: "Social Factor",
+                explanation: "Social factors = how company treats people, stakeholders, society. Volunteer time = community benefit = social. Environmental = natural world. Governance = organization.",
+                tip: "SOCIAL = helping SOCIETY. E=Environment, S=Society, G=Governance.",
+                wrong: "Governance (company organization and citizenship)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "high",
+                question: "Voting awareness project enhances reputation for good citizenship. ESG factor?",
+                answer: "Governance",
+                explanation: "Governance = how company is organized and meets good citizenship definitions. Voting awareness = civic engagement = governance.",
+                tip: "GOVERNANCE = good GOVERNANCE/citizenship. Civic responsibility.",
+                wrong: "Social (would be treating people well, not civic engagement)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "high",
+                question: "Data shared with reporters can be discussed publicly. Classification?",
+                answer: "Public Data",
+                explanation: "Public data = least sensitive, anyone can see. If Sanjeev can discuss with reporters, it's now public regardless of previous classification.",
+                tip: "Can share with ANYONE = PUBLIC data. No restrictions.",
+                wrong: "Internal data (available to employees only, not public)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "high",
+                question: "Signed document: share employee data = company will sue. Classification?",
+                answer: "Restricted Data",
+                explanation: "Restricted = most sensitive. Need-to-know basis. Criminal charges possible. Employee PII = restricted. Confidential = sensitive but no legal action.",
+                tip: "RESTRICTED = legal action possible. Most sensitive level.",
+                wrong: "Confidential (sensitive but no legal threat)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "high",
+                question: "Financial statements: authorized individuals only, job requires. Classification?",
+                answer: "Confidential Data",
+                explanation: "Confidential = sensitive, seen only by authorized whose jobs require it. P&L statements, internal financial data. Not as severe as restricted.",
+                tip: "CONFIDENTIAL = need authorization for job. Sensitive but not criminal.",
+                wrong: "Restricted (would involve legal/criminal consequences)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "high",
+                question: "Three-tier website design: layer where data processing occurs?",
+                answer: "Application Layer",
+                explanation: "Three tiers: Presentation (what users see), Application (processing/logic), Data (storage). Application = middle tier that processes.",
+                tip: "APPLICATION = where processing APPLIES. Middle tier logic.",
+                wrong: "Data layer (stores data, doesn't process)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "high",
+                question: "CI/CD: new code frequently integrated and tested?",
+                answer: "Continuous Integration",
+                explanation: "Continuous Integration = developers frequently add code to main, automated tests run. Find bugs early. Delivery = ready to deploy. Deployment = auto release.",
+                tip: "INTEGRATION = code INTEGRATED frequently. Test as you go.",
+                wrong: "Continuous Deployment (full automation of release)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "high",
+                question: "Updates during business hours disrupted customers. New control?",
+                answer: "Maintenance Window",
+                explanation: "Maintenance window = scheduled time for updates and maintenance. Problem was timing, not notification. Set specific maintenance times.",
+                tip: "MAINTENANCE WINDOW = scheduled update time. When to do work.",
+                wrong: "Customer notification (already notifying, problem is timing)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "high",
+                question: "LEAST important characteristic of Infrastructure Documentation?",
+                answer: "Simplified",
+                explanation: "Infrastructure docs should be: Comprehensive, Current, Shared, Easy to find. May be complex - oversimplified won't help. Simplified is LEAST important.",
+                tip: "Infrastructure docs: complete > simple. Don't oversimplify.",
+                wrong: "Shared (important - docs must be accessible)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "high",
+                question: "MFA requires what combination?",
+                answer: "Credentials from different categories (e.g., password + token)",
+                explanation: "MFA = at least two forms from DIFFERENT categories. Know (password), Have (token), Are (biometric). Same category doesn't count.",
+                tip: "MFA = MULTIPLE categories. Know + Have or Know + Are.",
+                wrong: "Username + password + security question (all 'something you know')"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "high",
+                question: "Software development: need infrastructure AND dev tools. Cloud model?",
+                answer: "PaaS (Platform as a Service)",
+                explanation: "PaaS = infrastructure + middleware + dev tools for building software. More than just infrastructure (IaaS), less than complete solution (XaaS).",
+                tip: "PaaS = Platform for development. Infrastructure + dev tools.",
+                wrong: "IaaS (infrastructure only, no dev tools)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "medium",
+                question: "HR, procurement, project management in one integrated system?",
+                answer: "ERP (Enterprise Resource Planning)",
+                explanation: "ERP = integrates operational workloads: accounting, supply chain, procurement, resource management. One system for multiple functions.",
+                tip: "ERP = EVERYTHING Resource Planning. Integrate multiple systems.",
+                wrong: "CMS (content management, not operations integration)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "medium",
+                question: "Organize, track, and share business records?",
+                answer: "RMS (Record Management System) / EDMS",
+                explanation: "RMS/EDMS = Electronic Document Management System. Create, track, share information. Edit workflows for efficiency.",
+                tip: "RMS = Record Management. Organize documents and records.",
+                wrong: "CRM (customer relationships, not records)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "medium",
+                question: "Need cybersecurity team AND system - cloud option?",
+                answer: "XaaS (Anything as a Service)",
+                explanation: "XaaS = outsource entire service to third party. Security as a service includes both system and people.",
+                tip: "XaaS = get EVERYTHING. System + people + management.",
+                wrong: "ERP (integrates internal systems, doesn't provide outsourced team)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "medium",
+                question: "Common internal risk sources?",
+                answer: "Digital transformation, personnel reorganization, new projects",
+                explanation: "Internal = inside company. Transformation, reorg, new projects. External = regulatory changes, cybersecurity incidents, infrastructure EOL.",
+                tip: "INTERNAL = inside company decisions. EXTERNAL = outside forces.",
+                wrong: "Major cybersecurity incident (external threat)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "medium",
+                question: "NOT physical security?",
+                answer: "Background Screening",
+                explanation: "Background screening = operational security (personnel). Physical = facility access, removable media locks, MDM. Screens people, not physical assets.",
+                tip: "PHYSICAL = physical barriers. Background check = checking people.",
+                wrong: "Facility access (physical security measure)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "medium",
+                question: "PII includes?",
+                answer: "Names, Insurance numbers (can identify individuals)",
+                explanation: "PII = Personally Identifiable Information. Names, SSN, insurance numbers identify individuals. Gender, postal codes = general. Anonymous data excluded.",
+                tip: "PII = can IDENTIFY a specific PERSON. Names, numbers, IDs.",
+                wrong: "Gender (general info, doesn't identify individual)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "medium",
+                question: "PHI typically protected?",
+                answer: "Insurance number, Prescription medications",
+                explanation: "PHI = Protected Health Information. Medical history, prescriptions, insurance = health related. Employer not health info. Aggregated stats not PHI.",
+                tip: "PHI = health-related identifying info. Medical, prescriptions, insurance.",
+                wrong: "Employer (not health information)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "medium",
+                question: "ESG projects: reducing waste, planting trees?",
+                answer: "Environmental factors",
+                explanation: "Environmental = benefits to natural world. Waste reduction, tree planting = environmental. Social = people. Governance = organization.",
+                tip: "Trees, waste, pollution = ENVIRONMENTAL. Nature-focused.",
+                wrong: "Reducing costs (financial, not ESG)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "medium",
+                question: "Transparency in financial reports to shareholders. ESG factor?",
+                answer: "Governance",
+                explanation: "Governance = company organization, regulations, citizenship. Transparency = good governance practice.",
+                tip: "GOVERNANCE = how company operates. Transparency, accountability.",
+                wrong: "Social (treating people well, not reporting practices)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "medium",
+                question: "Beta version of software released in which environment?",
+                answer: "Test Environment",
+                explanation: "Test environment = where beta code goes for testing before launch. Development = writing code. Production = live users.",
+                tip: "BETA = TEST environment. Testing before production.",
+                wrong: "Development (writing code, not testing)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "medium",
+                question: "Quickly notify on-call technicians about critical updates?",
+                answer: "SMS",
+                explanation: "SMS = fastest for urgent short messages. Easy group messaging. Email and social media slower. VOIP requires live call setup.",
+                tip: "SMS = fast, direct, group-friendly. Best for urgent alerts.",
+                wrong: "VOIP (requires setting up calls, slower)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "medium",
+                question: "Derek wants sensitive discussion with HR on other side of country?",
+                answer: "Telephone",
+                explanation: "For sensitive, time-sensitive discussions across distance, telephone allows hearing tone, quick Q&A. Face-to-face not possible across country.",
+                tip: "SENSITIVE + REMOTE = telephone. Can't go in person, need voice.",
+                wrong: "Face-to-face (can't - different locations)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "medium",
+                question: "Nigel needs to find meeting times for large group. Tool?",
+                answer: "Calendaring Tools",
+                explanation: "Calendaring tools compare schedules to find availability. All employees have accessible schedules - compare to find best times.",
+                tip: "CALENDAR = find when people are FREE. Schedule comparison.",
+                wrong: "Polling (gathering feedback, not checking schedules)"
+            },
+            {
+                domain: "domain4", domainLabel: "Domain 4: IT & Gov", priority: "medium",
+                question: "One office, sensitive discussion, need to see body language. Communication?",
+                answer: "Face-to-Face",
+                explanation: "Face-to-face = best for sensitive discussions. See body language, facial expressions, sense atmosphere. Build relationships.",
+                tip: "SENSITIVE + SAME LOCATION = face-to-face. See full reaction.",
+                wrong: "Video (face-to-face better when in same office)"
+            },
+
+            // ============================================
+            // FORMULAS (CRITICAL FOR EXAM)
+            // ============================================
+            {
+                domain: "formulas", domainLabel: "📊 Formulas", priority: "critical",
+                question: "What is the formula for Cost Variance (CV)?",
+                answer: "CV = EV - AC",
+                explanation: "Cost Variance = Earned Value minus Actual Cost. Positive = under budget. Negative = over budget.",
+                tip: "CV = EV - AC. Remember: EARNED minus ACTUAL. Positive is good!",
+                formula: "CV = EV - AC"
+            },
+            {
+                domain: "formulas", domainLabel: "📊 Formulas", priority: "critical",
+                question: "What is the formula for Schedule Variance (SV)?",
+                answer: "SV = EV - PV",
+                explanation: "Schedule Variance = Earned Value minus Planned Value. Positive = ahead of schedule. Negative = behind.",
+                tip: "SV = EV - PV. EARNED minus PLANNED. Positive = ahead!",
+                formula: "SV = EV - PV"
+            },
+            {
+                domain: "formulas", domainLabel: "📊 Formulas", priority: "critical",
+                question: "What is the formula for Cost Performance Index (CPI)?",
+                answer: "CPI = EV ÷ AC",
+                explanation: "CPI = Earned Value divided by Actual Cost. >1.0 = under budget. <1.0 = over budget.",
+                tip: "CPI = EV/AC. Greater than 1 = good! Getting more value than spending.",
+                formula: "CPI = EV ÷ AC"
+            },
+            {
+                domain: "formulas", domainLabel: "📊 Formulas", priority: "critical",
+                question: "What is the formula for Schedule Performance Index (SPI)?",
+                answer: "SPI = EV ÷ PV",
+                explanation: "SPI = Earned Value divided by Planned Value. >1.0 = ahead. <1.0 = behind.",
+                tip: "SPI = EV/PV. Greater than 1 = ahead of schedule!",
+                formula: "SPI = EV ÷ PV"
+            },
+            {
+                domain: "formulas", domainLabel: "📊 Formulas", priority: "critical",
+                question: "What is the PERT formula for weighted average estimate?",
+                answer: "PERT = (O + 4M + P) ÷ 6",
+                explanation: "O = Optimistic, M = Most Likely (weighted 4x), P = Pessimistic. Divided by 6 total weights.",
+                tip: "PERT = (O + 4M + P) / 6. Most likely gets 4x weight!",
+                formula: "PERT = (O + 4M + P) ÷ 6"
+            },
+            {
+                domain: "formulas", domainLabel: "📊 Formulas", priority: "critical",
+                question: "What is the formula for Total Float?",
+                answer: "Total Float = LS - ES (or LF - EF)",
+                explanation: "Total Float = Late Start minus Early Start. If 0, task is on critical path.",
+                tip: "Float = LS - ES. Zero float = CRITICAL PATH!",
+                formula: "Total Float = LS - ES = LF - EF"
+            },
+            {
+                domain: "formulas", domainLabel: "📊 Formulas", priority: "critical",
+                question: "What is the formula for EMV (Expected Monetary Value)?",
+                answer: "EMV = Probability × Impact",
+                explanation: "EMV = Probability of event × Monetary Impact. Used for contingency buffer calculations.",
+                tip: "EMV = P × I. Probability times Impact for each risk.",
+                formula: "EMV = Probability × Impact"
+            },
+            {
+                domain: "formulas", domainLabel: "📊 Formulas", priority: "critical",
+                question: "What is the formula for EAC (Estimate at Completion)?",
+                answer: "EAC = BAC ÷ CPI",
+                explanation: "EAC = Budget at Completion divided by Cost Performance Index. Forecasts total project cost.",
+                tip: "EAC = BAC/CPI. Adjusts budget by current efficiency.",
+                formula: "EAC = BAC ÷ CPI"
+            },
+            {
+                domain: "formulas", domainLabel: "📊 Formulas", priority: "high",
+                question: "What is the formula for ETC (Estimate to Complete)?",
+                answer: "ETC = EAC - AC",
+                explanation: "ETC = Estimate at Completion minus Actual Cost. How much more money needed to finish.",
+                tip: "ETC = EAC - AC. What's LEFT to spend.",
+                formula: "ETC = EAC - AC"
+            },
+            {
+                domain: "formulas", domainLabel: "📊 Formulas", priority: "high",
+                question: "What is the formula for VAC (Variance at Completion)?",
+                answer: "VAC = BAC - EAC",
+                explanation: "VAC = Budget at Completion minus Estimate at Completion. Positive = under budget at end.",
+                tip: "VAC = BAC - EAC. Positive = under budget when done!",
+                formula: "VAC = BAC - EAC"
+            },
+            {
+                domain: "formulas", domainLabel: "📊 Formulas", priority: "high",
+                question: "What is the formula for Communication Channels?",
+                answer: "Channels = n(n-1) ÷ 2",
+                explanation: "n = number of people. Shows how communication complexity grows with team size.",
+                tip: "Channels = n(n-1)/2. 10 people = 45 channels!",
+                formula: "Channels = n(n-1) ÷ 2"
+            },
+            {
+                domain: "formulas", domainLabel: "📊 Formulas", priority: "high",
+                question: "Pei Pei wants to know if budget will cover expenses. Which analysis?",
+                answer: "Monte Carlo Analysis",
+                explanation: "Monte Carlo assesses likelihood of estimate covering actual expenses. Uses simulations for probability.",
+                tip: "Will budget be enough? MONTE CARLO. Simulation-based probability.",
+                wrong: "Risk analysis (identifies risks, doesn't simulate budget outcomes)"
+            },
+            {
+                domain: "formulas", domainLabel: "📊 Formulas", priority: "high",
+                question: "Analysis to determine if money allocated will cover expenses?",
+                answer: "Monte Carlo Analysis",
+                explanation: "Monte Carlo = assesses likelihood of budget covering actual expenses. Also calculates contingency/management reserves.",
+                tip: "Budget probability = MONTE CARLO. Will we have enough?",
+                wrong: "Decision tree (paths and scenarios, not budget probability)"
+            },
+
+            // ============================================
+            // CHARTS AND QUALITY TOOLS
+            // ============================================
+            {
+                domain: "charts", domainLabel: "📈 Charts", priority: "critical",
+                question: "Chart based on 80/20 rule: 80% of problems from 20% of causes?",
+                answer: "Pareto Chart",
+                explanation: "Pareto = bar chart + line, bars ranked tallest to shortest. Focus on vital few causes for biggest impact.",
+                tip: "PARETO = 80/20. Tallest bars = biggest problems to fix first.",
+                wrong: "Histogram (frequency distribution, not 80/20)"
+            },
+            {
+                domain: "charts", domainLabel: "📈 Charts", priority: "critical",
+                question: "Chart with UCL (Upper Control Limit) and LCL (Lower Control Limit)?",
+                answer: "Control Chart",
+                explanation: "Control charts track variation over time. Points outside UCL/LCL = special cause variation, process out of control.",
+                tip: "CONTROL CHART = UCL/LCL lines. Outside limits = out of control!",
+                wrong: "Run chart (tracks trends, no control limits)"
+            },
+            {
+                domain: "charts", domainLabel: "📈 Charts", priority: "critical",
+                question: "Fishbone diagram is also called?",
+                answer: "Ishikawa Diagram (Cause and Effect)",
+                explanation: "Fishbone/Ishikawa = root cause analysis. Head = problem, bones = causes. Uses 6Ms or 6Ps for categories.",
+                tip: "FISHBONE = ISHIKAWA = root cause. Head = effect, bones = causes.",
+                wrong: "Pareto chart (ranking causes, not root cause analysis)"
+            },
+            {
+                domain: "charts", domainLabel: "📈 Charts", priority: "high",
+                question: "Chart showing work remaining vs time (slopes down)?",
+                answer: "Burndown Chart",
+                explanation: "Burndown = remaining work decreasing toward zero. Good for fixed timeline, flexible scope. Line should go DOWN.",
+                tip: "BURNDOWN = work going DOWN. Target = reach zero.",
+                wrong: "Burnup chart (shows work completed going up)"
+            },
+            {
+                domain: "charts", domainLabel: "📈 Charts", priority: "high",
+                question: "Chart with diamonds for decisions and boxes for steps?",
+                answer: "Process Flow (Flowchart)",
+                explanation: "Flowcharts use standard shapes: diamonds = decisions, rectangles = steps. Shows sequence, handoffs, bottlenecks.",
+                tip: "FLOWCHART = diamonds (decisions) + boxes (steps). Process flow.",
+                wrong: "PDM (rectangles and arrows only, no decision diamonds)"
+            },
+            {
+                domain: "charts", domainLabel: "📈 Charts", priority: "high",
+                question: "Visual output of Monte Carlo simulation showing cumulative probability?",
+                answer: "S-Curve",
+                explanation: "S-Curve = cumulative probability distribution from Monte Carlo. Shows likelihood of achieving various outcomes.",
+                tip: "S-CURVE = Monte Carlo output. Cumulative probability.",
+                wrong: "Histogram (frequency, not cumulative probability)"
+            },
+            {
+                domain: "charts", domainLabel: "📈 Charts", priority: "high",
+                question: "Dean charts problem incidences by time of day. Which chart?",
+                answer: "Run Chart",
+                explanation: "Run chart = data over time. X-axis time, Y-axis measurement. Found problems late in shift = fatigue pattern.",
+                tip: "Data over TIME = RUN chart. Looking for trends/patterns.",
+                wrong: "Histogram (frequency distribution, not time-based)"
+            },
+
+            // ============================================
+            // KEY CONCEPTS
+            // ============================================
+            {
+                domain: "concepts", domainLabel: "💡 Concepts", priority: "critical",
+                question: "What is the difference between a Risk and an Issue?",
+                answer: "Risk = MIGHT happen (future uncertainty). Issue = HAS happened (needs resolution now)",
+                explanation: "Risks are proactively managed. Issues are reactively resolved. Risk = potential. Issue = actual.",
+                tip: "RISK = might. ISSUE = did. Risks managed, issues resolved.",
+                wrong: null
+            },
+            {
+                domain: "concepts", domainLabel: "💡 Concepts", priority: "critical",
+                question: "What are the four dependency types (FS, SS, FF, SF)?",
+                answer: "FS=Finish-to-Start (most common), SS=Start-to-Start, FF=Finish-to-Finish, SF=Start-to-Finish (rare)",
+                explanation: "FS: A finishes before B starts. SS: A and B start together. FF: A and B finish together. SF: A starts before B finishes.",
+                tip: "FS = most common (finish one, start next). SF = rare.",
+                wrong: null
+            },
+            {
+                domain: "concepts", domainLabel: "💡 Concepts", priority: "critical",
+                question: "What does RACI stand for?",
+                answer: "Responsible, Accountable, Consulted, Informed",
+                explanation: "R = does work. A = approval authority (one per task). C = provide input. I = kept updated.",
+                tip: "RACI: R does it, A approves it, C gives input, I gets updates.",
+                wrong: null
+            },
+            {
+                domain: "concepts", domainLabel: "💡 Concepts", priority: "high",
+                question: "What is the Triple Constraint?",
+                answer: "Scope, Time, Cost - changing one affects the others",
+                explanation: "Also called Project Triangle. Adding scope increases time/cost. Cutting budget reduces scope/quality.",
+                tip: "TRIPLE = Scope + Time + Cost. Change one, change others.",
+                wrong: null
+            },
+            {
+                domain: "concepts", domainLabel: "💡 Concepts", priority: "high",
+                question: "What are Tuckman's stages of group development?",
+                answer: "Forming → Storming → Norming → Performing → Adjourning",
+                explanation: "Forming = meet. Storming = conflict. Norming = settle. Performing = productive. Adjourning = disband.",
+                tip: "Form-Storm-Norm-Perform-Adjourn. Conflict is normal (Storming)!",
+                wrong: null
+            },
+            {
+                domain: "concepts", domainLabel: "💡 Concepts", priority: "high",
+                question: "Resource Leveling vs Resource Smoothing?",
+                answer: "Leveling CAN extend timeline. Smoothing keeps timeline FIXED.",
+                explanation: "Leveling = delay tasks, timeline may extend. Smoothing = use float, keep end date fixed.",
+                tip: "LEVELING = timeline can change. SMOOTHING = timeline stays same.",
+                wrong: null
+            },
+            {
+                domain: "concepts", domainLabel: "💡 Concepts", priority: "high",
+                question: "Crashing vs Fast Tracking?",
+                answer: "Crashing = add resources (costs more). Fast Tracking = parallel tasks (more risk)",
+                explanation: "Both compress schedule. Crashing = more money, same risk. Fast Tracking = same cost, more risk.",
+                tip: "CRASHING = CASH. FAST TRACKING = FEAR (risk).",
+                wrong: null
+            },
+            {
+                domain: "concepts", domainLabel: "💡 Concepts", priority: "high",
+                question: "What is the Critical Path?",
+                answer: "Longest sequence of dependent activities = shortest project duration. Float = 0.",
+                explanation: "Critical path has no slack/float. Delay on critical path delays entire project.",
+                tip: "CRITICAL PATH = longest path = zero float. Delay here = project delay.",
+                wrong: null
+            },
+            {
+                domain: "concepts", domainLabel: "💡 Concepts", priority: "high",
+                question: "IaaS vs PaaS vs SaaS vs XaaS?",
+                answer: "IaaS=Infrastructure, PaaS=Platform+Dev tools, SaaS=Software, XaaS=Everything",
+                explanation: "IaaS = servers/storage. PaaS = IaaS + dev tools. SaaS = just software. XaaS = complete solution.",
+                tip: "I=Infrastructure, P=Platform, S=Software, X=Everything.",
+                wrong: null
+            },
+            {
+                domain: "concepts", domainLabel: "💡 Concepts", priority: "high",
+                question: "What are the 4 risk response strategies for negative risks?",
+                answer: "Avoid, Transfer, Mitigate, Accept",
+                explanation: "Avoid = eliminate. Transfer = shift to third party. Mitigate = reduce probability/impact. Accept = do nothing.",
+                tip: "Negative risks: ATMA. Avoid, Transfer, Mitigate, Accept.",
+                wrong: null
+            },
+            {
+                domain: "concepts", domainLabel: "💡 Concepts", priority: "high",
+                question: "What are the 4 risk response strategies for positive risks (opportunities)?",
+                answer: "Exploit, Share, Enhance, Accept",
+                explanation: "Exploit = ensure it happens. Share = partner to benefit. Enhance = increase probability. Accept = wait and see.",
+                tip: "Positive risks: ESEA. Exploit, Share, Enhance, Accept.",
+                wrong: null
+            },
+            {
+                domain: "concepts", domainLabel: "💡 Concepts", priority: "medium",
+                question: "What does SMART stand for (objectives)?",
+                answer: "Specific, Measurable, Achievable, Relevant, Time-bound",
+                explanation: "SMART objectives are clear and achievable. Better than vague goals.",
+                tip: "SMART = good goals. Specific + Measurable + Achievable + Relevant + Time-bound.",
+                wrong: null
+            },
+            {
+                domain: "concepts", domainLabel: "💡 Concepts", priority: "medium",
+                question: "What does MoSCoW stand for (prioritization)?",
+                answer: "Must have, Should have, Could have, Won't have",
+                explanation: "MoSCoW prioritizes requirements. Must = critical. Should = important. Could = nice. Won't = excluded.",
+                tip: "MoSCoW = Must, Should, Could, Won't. Prioritize requirements.",
+                wrong: null
+            },
+            {
+                domain: "concepts", domainLabel: "💡 Concepts", priority: "medium",
+                question: "Project phases in order?",
+                answer: "Preparation → Initiation → Planning → Execution → Closing",
+                explanation: "Preparation = business case. Initiation = charter. Planning = detailed plans. Execution = work. Closing = wrap up.",
+                tip: "PIPEC: Prep, Init, Plan, Execute, Close.",
+                wrong: null
+            },
+            {
+                domain: "concepts", domainLabel: "💡 Concepts", priority: "medium",
+                question: "Issue management steps in order?",
+                answer: "Identify → Analyze → Evaluate → CCB Review → Update → Notify",
+                explanation: "Log issue, analyze root cause, evaluate options, get approval, update baseline, communicate.",
+                tip: "Issue: ID → Analyze → Evaluate → CCB → Update → Notify.",
+                wrong: null
+            },
+            {
+                domain: "concepts", domainLabel: "💡 Concepts", priority: "medium",
+                question: "Change management steps in order?",
+                answer: "Request → Impact Analysis → CCB Review → Implement → Update Baseline → Communicate",
+                explanation: "Submit request, analyze impact, get CCB approval, make change, update docs, notify stakeholders.",
+                tip: "Change: Request → Analyze → CCB → Implement → Update → Communicate.",
+                wrong: null
+            }
+        ];
+
+        let currentIndex = 0;
+        let filteredCards = [...flashcards];
+        let isFlipped = false;
+
+        const flashcardEl = document.getElementById('flashcard');
+        const questionText = document.getElementById('questionText');
+        const answerTitle = document.getElementById('answerTitle');
+        const answerText = document.getElementById('answerText');
+        const answerBody = document.getElementById('answerBody');
+        const domainBadge = document.getElementById('domainBadge');
+        const domainBadgeBack = document.getElementById('domainBadgeBack');
+        const priorityBadge = document.getElementById('priorityBadge');
+        const progressText = document.getElementById('progressText');
+        const progressFill = document.getElementById('progressFill');
+
+        function getDomainClass(domain) {
+            const classes = {
+                'domain1': 'domain-1', 'domain2': 'domain-2', 'domain3': 'domain-3', 'domain4': 'domain-4',
+                'formulas': 'domain-formulas', 'charts': 'domain-formulas', 'methodology': 'domain-1', 'concepts': 'domain-concepts'
+            };
+            return classes[domain] || 'domain-1';
+        }
+
+        function updateCard() {
+            const card = filteredCards[currentIndex];
+            if (!card) return;
+
+            if (isFlipped) {
+                flashcardEl.classList.remove('flipped');
+                isFlipped = false;
+            }
+
+            questionText.textContent = card.question;
+            answerTitle.textContent = card.answer;
+
+            let answerHTML = `<p class="answer-text">${card.explanation}</p>`;
+            
+            if (card.formula) {
+                answerHTML += `<div class="formula-box">${card.formula}</div>`;
+            }
+            
+            if (card.tip) {
+                answerHTML += `<div class="tip-box"><div class="tip-label">💡 Memory Tip</div><p class="tip-text">${card.tip}</p></div>`;
+            }
+            
+            if (card.wrong) {
+                answerHTML += `<div class="wrong-box"><div class="wrong-label">❌ Common Wrong Answer</div><p class="wrong-text">${card.wrong}</p></div>`;
+            }
+
+            answerBody.innerHTML = `<h3 class="answer-title">${card.answer}</h3>${answerHTML}`;
+
+            const domainClass = getDomainClass(card.domain);
+            domainBadge.className = `domain-badge ${domainClass}`;
+            domainBadgeBack.className = `domain-badge ${domainClass}`;
+            domainBadge.textContent = card.domainLabel;
+            domainBadgeBack.textContent = card.domainLabel;
+
+            priorityBadge.className = `priority-badge priority-${card.priority}`;
+            priorityBadge.textContent = card.priority.toUpperCase();
+
+            progressText.textContent = `${currentIndex + 1} / ${filteredCards.length}`;
+            progressFill.style.width = `${((currentIndex + 1) / filteredCards.length) * 100}%`;
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            flashcardEl.classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            if (isFlipped) { flashcardEl.classList.remove('flipped'); isFlipped = false; }
+            currentIndex = (currentIndex + 1) % filteredCards.length;
+            setTimeout(updateCard, 100);
+        }
+
+        function prevCard() {
+            if (isFlipped) { flashcardEl.classList.remove('flipped'); isFlipped = false; }
+            currentIndex = (currentIndex - 1 + filteredCards.length) % filteredCards.length;
+            setTimeout(updateCard, 100);
+        }
+
+        function shuffleCards() {
+            for (let i = filteredCards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [filteredCards[i], filteredCards[j]] = [filteredCards[j], filteredCards[i]];
+            }
+            currentIndex = 0;
+            if (isFlipped) { flashcardEl.classList.remove('flipped'); isFlipped = false; }
+            updateCard();
+        }
+
+        function filterCards(filter) {
+            if (filter === 'all') {
+                filteredCards = [...flashcards];
+            } else {
+                filteredCards = flashcards.filter(card => card.domain === filter || card.domain.includes(filter));
+            }
+            currentIndex = 0;
+            if (isFlipped) { flashcardEl.classList.remove('flipped'); isFlipped = false; }
+            updateCard();
+        }
+
+        // Event listeners
+        flashcardEl.addEventListener('click', flipCard);
+        document.getElementById('flipBtn').addEventListener('click', flipCard);
+        document.getElementById('nextBtn').addEventListener('click', nextCard);
+        document.getElementById('prevBtn').addEventListener('click', prevCard);
+        document.getElementById('shuffleBtn').addEventListener('click', shuffleCards);
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                filterCards(this.dataset.filter);
+            });
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space') { e.preventDefault(); flipCard(); }
+            else if (e.code === 'ArrowRight') { nextCard(); }
+            else if (e.code === 'ArrowLeft') { prevCard(); }
+            else if (e.code === 'KeyS') { shuffleCards(); }
+        });
+
+        updateCard();
+    </script>
+</body>
+</html>
