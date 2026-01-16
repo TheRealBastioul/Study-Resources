@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ Project+ RAPID CRAM ⚡</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .flash-overlay {
+            position: fixed;
+            inset: 0;
+            background: #fff;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1000;
+            transition: opacity 0.05s;
+        }
+
+        .flash-overlay.active {
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1rem;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            text-align: center;
+            padding: 0.5rem 0;
+            border-bottom: 2px solid #333;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            background: linear-gradient(90deg, #ff0080, #00ffff, #ff0080);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 2s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .controls {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 0.5rem 0;
+        }
+
+        button {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        button:hover, button.active {
+            background: #00ffff;
+            color: #000;
+            box-shadow: 0 0 20px #00ffff;
+        }
+
+        .speed-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .speed-controls span {
+            color: #888;
+            font-size: 0.75rem;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #222;
+            border-radius: 2px;
+            margin: 0.5rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff0080, #00ffff);
+            transition: width 0.3s;
+        }
+
+        .counter {
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            color: #00ffff;
+            font-size: 1.1rem;
+            padding: 0.25rem 0;
+        }
+
+        .card-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 2000px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 800px;
+            min-height: 350px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .card-front {
+            background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
+            border: 3px solid #ff0080;
+            box-shadow: 0 0 30px rgba(255, 0, 128, 0.3);
+        }
+
+        .card-back {
+            background: linear-gradient(145deg, #0f2027, #203a43);
+            border: 3px solid #00ffff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+            transform: rotateY(180deg);
+        }
+
+        .domain-tag {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 0.65rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .domain1 { background: #8b5cf6; }
+        .domain2 { background: #06b6d4; }
+        .domain3 { background: #f59e0b; }
+        .domain4 { background: #10b981; }
+
+        .question {
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #fff;
+        }
+
+        .answer {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00ffff;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            margin-bottom: 1rem;
+        }
+
+        .tip {
+            font-size: 1rem;
+            color: #ffcc00;
+            background: rgba(255, 204, 0, 0.1);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #ffcc00;
+            max-width: 90%;
+        }
+
+        .wrong {
+            font-size: 0.85rem;
+            color: #ff6b6b;
+            margin-top: 0.75rem;
+            opacity: 0.9;
+        }
+
+        .wrong::before {
+            content: "❌ NOT: ";
+            font-weight: bold;
+        }
+
+        .instructions {
+            text-align: center;
+            color: #666;
+            font-size: 0.75rem;
+            padding: 0.5rem;
+        }
+
+        .pulse {
+            animation: pulse 0.3s ease-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .strobe {
+            animation: strobe 0.15s steps(2) 2;
+        }
+
+        @keyframes strobe {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(2); }
+        }
+
+        @media (max-width: 600px) {
+            .question { font-size: 1.1rem; }
+            .answer { font-size: 1.5rem; }
+            .card-face { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="flash-overlay" id="flashOverlay"></div>
+    
+    <div class="container">
+        <header>
+            <h1>⚡ PROJECT+ RAPID CRAM ⚡</h1>
+        </header>
+
+        <div class="controls">
+            <button onclick="filterDomain('all')" id="btn-all" class="active">ALL</button>
+            <button onclick="filterDomain('domain1')" id="btn-domain1">D1: PM</button>
+            <button onclick="filterDomain('domain2')" id="btn-domain2">D2: Life</button>
+            <button onclick="filterDomain('domain3')" id="btn-domain3">D3: Comm</button>
+            <button onclick="filterDomain('domain4')" id="btn-domain4">D4: IT</button>
+            <div class="speed-controls">
+                <span>AUTO:</span>
+                <button onclick="toggleAuto(3000)" id="btn-3s">3s</button>
+                <button onclick="toggleAuto(5000)" id="btn-5s">5s</button>
+                <button onclick="toggleAuto(0)" id="btn-off">OFF</button>
+            </div>
+            <button onclick="shuffle()" id="btn-shuffle">🔀 SHUFFLE</button>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+        </div>
+        
+        <div class="counter" id="counter">1 / 60</div>
+
+        <div class="card-container">
+            <div class="card" id="card" onclick="flipCard()">
+                <div class="card-face card-front">
+                    <div class="domain-tag domain1" id="domainTag">Domain 1</div>
+                    <div class="question" id="question">Loading...</div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="answer" id="answer">Answer</div>
+                    <div class="tip" id="tip">Memory tip here</div>
+                    <div class="wrong" id="wrong">Wrong answer trap</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            SPACE = Flip | → = Next | ← = Previous | Click card to flip
+        </div>
+    </div>
+
+    <script>
+        const allCards = [
+            // DOMAIN 1 - PM CONCEPTS (Critical)
+            { domain: "domain1", q: "Michael represents customer interests, prioritizes requirements. Role?", a: "Product Owner", tip: "Product OWNER = OWNS customer vision & backlog priorities", wrong: "Project manager (manages overall, not customer rep)" },
+            { domain: "domain1", q: "Methodology: developer quality of life AND software quality?", a: "XP (Extreme Programming)", tip: "XP = eXcellent for Programmers. Sustainable pace.", wrong: "SDLM (sequential, not developer-focused)" },
+            { domain: "domain1", q: "Precise documentation, executive oversight, process-focused?", a: "PRINCE2", tip: "PRINCE2 = PRojects IN Controlled Environments. Royal = formal", wrong: "XP (gives developers freedom)" },
+            { domain: "domain1", q: "Perfectionist companies: major issue management drawback?", a: "Discourage Reporting Issues", tip: "PERFECTIONIST = hide PROBLEMS", wrong: "Take too long to resolve" },
+            { domain: "domain1", q: "Observed design flaw, finding root cause. Step?", a: "Analyze the Issue", tip: "IDENTIFY → ANALYZE (WHY). Analysis = dig into cause", wrong: "Identify (already done)" },
+            { domain: "domain1", q: "Methodology most closely mirrors Waterfall?", a: "SDLM", tip: "SDLM = Sequential = Same as Waterfall", wrong: "SAFe (it's Agile)" },
+            { domain: "domain1", q: "Caterer starts after tables START (not finish). Dependency?", a: "SS (Start-to-Start)", tip: "SS = Start when they Start. Parallel start.", wrong: "FS (must complete first)" },
+            { domain: "domain1", q: "Servers must be COMPLETE before migration. Dependency?", a: "FS (Finish-to-Start)", tip: "FS = Finish before Start. Most common.", wrong: "SS (would overlap)" },
+            { domain: "domain1", q: "Agile equivalent of work package?", a: "User Story", tip: "USER STORY = smallest WORK unit", wrong: "Epic (too big)" },
+            { domain: "domain1", q: "HLD purpose in solution design?", a: "Overview of approach & solution", tip: "HLD = HIGH view = helicopter view", wrong: "Implementation (that's LLD)" },
+            { domain: "domain1", q: "Steady pace schedule to prevent burnout?", a: "Cadence", tip: "CADENCE = rhythm/pace. Like music beat.", wrong: "Sprint goals" },
+            { domain: "domain1", q: "First step in resource management?", a: "Needs Assessment", tip: "First = What do we NEED?", wrong: "Estimating resources" },
+            { domain: "domain1", q: "Compares systems with needs for solution design?", a: "Architect", tip: "ARCHITECT = designs within system limits", wrong: "Business analyst" },
+            { domain: "domain1", q: "Delay without impacting NEXT task's early start?", a: "Free Float (FF)", tip: "FREE Float = freedom before NEXT task", wrong: "Total Float (affects project end)" },
+            { domain: "domain1", q: "Large org, multiple teams, scale Agile with hierarchy?", a: "SAFe", tip: "SAFe = SCALE Agile to enterprise", wrong: "Scrum (single team)" },
+            { domain: "domain1", q: "TOR used for?", a: "Consultancy/research - relationship focus", tip: "TOR = Terms of Relationship", wrong: "SOW (deliverables focus)" },
+            { domain: "domain1", q: "CPAF contract means?", a: "Fixed fee + bonus on performance", tip: "CPAF = Cost Plus AWARD for good work", wrong: "CPIF (set incentive amount)" },
+            { domain: "domain1", q: "FMEA used for?", a: "Manufacturing risk analysis", tip: "FMEA = Find Manufacturing Every flaw", wrong: "Scenario analysis" },
+            { domain: "domain1", q: "Quality escape means?", a: "Defect goes undetected", tip: "Quality ESCAPE = defect ESCAPED detection", wrong: "Risk" },
+            { domain: "domain1", q: "Simulation requires what for predictions?", a: "Probability distributions", tip: "Simulation = quantitative with probabilities", wrong: "Interconnectivity analysis" },
+            { domain: "domain1", q: "Testing under various expected workloads?", a: "Performance Testing", tip: "PERFORMANCE = normal. STRESS = extreme.", wrong: "Stress testing" },
+            { domain: "domain1", q: "NOT crucial for successful PM?", a: "Coding Skills", tip: "PMs MANAGE, not code", wrong: "Interpersonal skills" },
+            { domain: "domain1", q: "CEO expanded meal delivery anticipating pandemic?", a: "Enhancement", tip: "ENHANCEMENT = maximize opportunity", wrong: "Acceptance" },
+            { domain: "domain1", q: "Two-way focus groups?", a: "One group watches another discuss", tip: "TWO-WAY = two groups, more perspectives", wrong: "Respondent-moderator" },
+
+            // DOMAIN 2 - LIFE CYCLE
+            { domain: "domain2", q: "When is backlog first created?", a: "Planning Phase", tip: "BACKLOG = PLANNING, then refined in execution", wrong: "Execution (needs backlog first)" },
+            { domain: "domain2", q: "When are stakeholders identified?", a: "Initiation Phase", tip: "STAKEHOLDERS = early in INITIATION", wrong: "Preparation phase" },
+            { domain: "domain2", q: "When does kickoff meeting occur?", a: "After initiation (start of planning)", tip: "KICKOFF = after INITIATION", wrong: "After planning" },
+            { domain: "domain2", q: "Phase-gate: work incomplete. Decision?", a: "Stay in Current Phase", tip: "Not done? STAY. Finish first.", wrong: "Proceed to next phase" },
+            { domain: "domain2", q: "Saying goodbye to team at end?", a: "Releasing Resources", tip: "Goodbye = RELEASING. People = resources.", wrong: "Celebration (more elaborate)" },
+            { domain: "domain2", q: "WBS: no overlap, complete scope?", a: "MECE", tip: "MECE = Mutually Exclusive, Collectively Exhaustive", wrong: "100% rule" },
+            { domain: "domain2", q: "WBS: 8-80 hours, measurable deliverable?", a: "Level Responsibility", tip: "8-80 rule = Level responsibility", wrong: "MECE" },
+            { domain: "domain2", q: "Glasl's Conflict Escalation stages?", a: "9 stages (3 levels of 3)", tip: "GLASL = 9 stages", wrong: "8 stages" },
+            { domain: "domain2", q: "Boss highlights similarities for agreement?", a: "Smoothing", tip: "SMOOTHING = smooth over differences", wrong: "Collaborating" },
+            { domain: "domain2", q: "Dashboard is what communication type?", a: "Communication Artifact", tip: "ARTIFACT = the thing created", wrong: "Channel (WHERE, not WHAT)" },
+            { domain: "domain2", q: "Communication plan parts?", a: "Goals, Outcomes, Channels, Artifacts", tip: "GOCA = Goals, Outcomes, Channels, Artifacts", wrong: "Retrospectives" },
+            { domain: "domain2", q: "Business case section written LAST?", a: "Executive Summary", tip: "Summary = write LAST", wrong: "Problem statement" },
+            { domain: "domain2", q: "Business case: 3-5 approaches including 'do nothing'?", a: "The Options", tip: "OPTIONS = multiple choices", wrong: "Problem analysis" },
+            { domain: "domain2", q: "Team development: individual work, minimal sharing?", a: "Forming", tip: "FORMING = cautious, getting to know", wrong: "Storming" },
+            { domain: "domain2", q: "Team conflicts, power struggles?", a: "Storming", tip: "STORMING = conflicts emerge", wrong: "Forming" },
+            { domain: "domain2", q: "Team resolves differences, establishes norms?", a: "Norming", tip: "NORMING = norms established", wrong: "Performing" },
+            { domain: "domain2", q: "Team high performance, minimal supervision?", a: "Performing", tip: "PERFORMING = peak productivity", wrong: "Norming" },
+
+            // DOMAIN 3 - COMMUNICATION
+            { domain: "domain3", q: "Formula: team of 8, communication channels?", a: "28 [n(n-1)/2 = 8×7/2]", tip: "n(n-1)/2 formula", wrong: "56" },
+            { domain: "domain3", q: "Stakeholder analysis: high power, low interest?", a: "Keep Satisfied", tip: "High power = satisfy them", wrong: "Manage closely" },
+            { domain: "domain3", q: "Stakeholder: high power, high interest?", a: "Manage Closely", tip: "Both high = most attention", wrong: "Keep satisfied" },
+            { domain: "domain3", q: "Stakeholder: low power, high interest?", a: "Keep Informed", tip: "Low power but interested = inform", wrong: "Monitor" },
+            { domain: "domain3", q: "Stakeholder: low power, low interest?", a: "Monitor", tip: "Both low = minimal effort", wrong: "Keep informed" },
+            { domain: "domain3", q: "RACI: does the work?", a: "Responsible", tip: "RESPONSIBLE = does work", wrong: "Accountable" },
+            { domain: "domain3", q: "RACI: ultimately answerable?", a: "Accountable", tip: "ACCOUNTABLE = answerable (only ONE)", wrong: "Responsible" },
+            { domain: "domain3", q: "RACI: provides input?", a: "Consulted", tip: "CONSULTED = 2-way communication", wrong: "Informed" },
+            { domain: "domain3", q: "RACI: kept up to date?", a: "Informed", tip: "INFORMED = 1-way communication", wrong: "Consulted" },
+            { domain: "domain3", q: "Status report frequency?", a: "Regular intervals (weekly/monthly)", tip: "STATUS = recurring, scheduled", wrong: "When requested" },
+            { domain: "domain3", q: "Change request process first step?", a: "Submit change request", tip: "Submit → Review → Approve → Implement", wrong: "Analyze impact" },
+
+            // DOMAIN 4 - IT & GOVERNANCE
+            { domain: "domain4", q: "Increase PHYSICAL security?", a: "Removable Media Locks", tip: "PHYSICAL = physical locks on ports", wrong: "Clearance requirements" },
+            { domain: "domain4", q: "Paid volunteer time = which ESG?", a: "Social Factor", tip: "SOCIAL = helping SOCIETY", wrong: "Governance" },
+            { domain: "domain4", q: "Voting awareness = which ESG?", a: "Governance", tip: "GOVERNANCE = civic responsibility", wrong: "Social" },
+            { domain: "domain4", q: "Data shared with reporters?", a: "Public Data", tip: "Can share with ANYONE = PUBLIC", wrong: "Internal data" },
+            { domain: "domain4", q: "Share data = lawsuit. Classification?", a: "Restricted Data", tip: "RESTRICTED = legal action possible", wrong: "Confidential" },
+            { domain: "domain4", q: "Authorized individuals only, job requires?", a: "Confidential Data", tip: "CONFIDENTIAL = need authorization", wrong: "Restricted" },
+            { domain: "domain4", q: "Three-tier: where data processing?", a: "Application Layer", tip: "APPLICATION = processing/logic", wrong: "Data layer" },
+            { domain: "domain4", q: "Code frequently integrated and tested?", a: "Continuous Integration", tip: "INTEGRATION = code INTEGRATED often", wrong: "Continuous Deployment" },
+            { domain: "domain4", q: "Updates during business hours disrupted. Control?", a: "Maintenance Window", tip: "MAINTENANCE WINDOW = scheduled time", wrong: "Customer notification" },
+            { domain: "domain4", q: "LEAST important for Infrastructure Docs?", a: "Simplified", tip: "Complete > simple. Don't oversimplify.", wrong: "Shared" },
+            { domain: "domain4", q: "MFA requires?", a: "Credentials from DIFFERENT categories", tip: "MFA = Know + Have or Know + Are", wrong: "Multiple passwords" },
+            { domain: "domain4", q: "Need infrastructure AND dev tools?", a: "PaaS", tip: "PaaS = Platform for development", wrong: "IaaS" },
+            { domain: "domain4", q: "HR, procurement, PM integrated?", a: "ERP", tip: "ERP = EVERYTHING Resource Planning", wrong: "CMS" },
+            { domain: "domain4", q: "Organize, track, share records?", a: "RMS/EDMS", tip: "RMS = Record Management System", wrong: "CRM" },
+            { domain: "domain4", q: "Manage customer interactions?", a: "CRM", tip: "CRM = Customer Relationship Management", wrong: "ERP" },
+            { domain: "domain4", q: "Website content management?", a: "CMS", tip: "CMS = Content Management System", wrong: "RMS" }
+        ];
+
+        let cards = [...allCards];
+        let currentIndex = 0;
+        let isFlipped = false;
+        let autoInterval = null;
+        let currentSpeed = 0;
+
+        function updateCard() {
+            const card = cards[currentIndex];
+            document.getElementById('question').textContent = card.q;
+            document.getElementById('answer').textContent = card.a;
+            document.getElementById('tip').textContent = "💡 " + card.tip;
+            document.getElementById('wrong').textContent = card.wrong;
+            
+            const tag = document.getElementById('domainTag');
+            tag.className = 'domain-tag ' + card.domain;
+            tag.textContent = card.domain.replace('domain', 'D');
+            
+            document.getElementById('counter').textContent = `${currentIndex + 1} / ${cards.length}`;
+            document.getElementById('progress').style.width = `${((currentIndex + 1) / cards.length) * 100}%`;
+            
+            document.getElementById('card').classList.remove('flipped');
+            isFlipped = false;
+            
+            // Strobe effect on new card
+            document.getElementById('card').classList.add('strobe');
+            setTimeout(() => document.getElementById('card').classList.remove('strobe'), 300);
+        }
+
+        function flipCard() {
+            const cardEl = document.getElementById('card');
+            cardEl.classList.toggle('flipped');
+            isFlipped = !isFlipped;
+            
+            // Flash effect
+            const overlay = document.getElementById('flashOverlay');
+            overlay.classList.add('active');
+            setTimeout(() => overlay.classList.remove('active'), 80);
+            
+            cardEl.classList.add('pulse');
+            setTimeout(() => cardEl.classList.remove('pulse'), 300);
+        }
+
+        function nextCard() {
+            currentIndex = (currentIndex + 1) % cards.length;
+            updateCard();
+        }
+
+        function prevCard() {
+            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+            updateCard();
+        }
+
+        function filterDomain(domain) {
+            document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-' + domain).classList.add('active');
+            
+            if (domain === 'all') {
+                cards = [...allCards];
+            } else {
+                cards = allCards.filter(c => c.domain === domain);
+            }
+            currentIndex = 0;
+            updateCard();
+        }
+
+        function shuffle() {
+            for (let i = cards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cards[i], cards[j]] = [cards[j], cards[i]];
+            }
+            currentIndex = 0;
+            updateCard();
+        }
+
+        function toggleAuto(speed) {
+            document.querySelectorAll('.speed-controls button').forEach(b => b.classList.remove('active'));
+            
+            if (autoInterval) {
+                clearInterval(autoInterval);
+                autoInterval = null;
+            }
+            
+            currentSpeed = speed;
+            
+            if (speed > 0) {
+                document.getElementById('btn-' + (speed/1000) + 's').classList.add('active');
+                autoInterval = setInterval(() => {
+                    if (isFlipped) {
+                        nextCard();
+                    } else {
+                        flipCard();
+                    }
+                }, speed / 2);
+            } else {
+                document.getElementById('btn-off').classList.add('active');
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                flipCard();
+            } else if (e.code === 'ArrowRight') {
+                nextCard();
+            } else if (e.code === 'ArrowLeft') {
+                prevCard();
+            }
+        });
+
+        // Initialize
+        shuffle();
+        updateCard();
+    </script>
+</body>
+</html>
